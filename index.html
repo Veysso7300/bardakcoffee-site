@@ -211,6 +211,87 @@
   .foot-bottom{
     margin-top:44px; padding-top:22px; border-top:1px solid rgba(255,255,255,.1);
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:11.5px; color:rgba(255,255,255,.4);
+  }  /* ---- grain texture overlay ---- */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:9999; pointer-events:none;
+    opacity:.035; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- live status badge ---- */
+  .status-badge{
+    display:inline-flex; align-items:center; gap:7px; font-size:11.5px; font-weight:700;
+    padding:6px 12px; border-radius:999px; margin-bottom:16px; letter-spacing:.02em;
+  }
+  .status-badge.open{ background:rgba(47,107,82,.12); color:var(--green-700) }
+  .status-badge.closed{ background:rgba(165,55,44,.1); color:#a5372c }
+  .status-badge .dot{ width:7px; height:7px; border-radius:50%; background:currentColor }
+  .status-badge.open .dot{ animation:pulse 1.6s ease-in-out infinite }
+  @keyframes pulse{ 0%,100%{ opacity:1 } 50%{ opacity:.35 } }
+  .greeting{ font-size:13px; color:var(--muted); margin-bottom:6px; font-weight:600 }
+
+  /* ---- magnetic buttons ---- */
+  .btn{ transition:transform .15s ease, box-shadow .15s ease }
+
+  /* ---- scroll cup progress ---- */
+  .cup-progress{
+    position:fixed; right:18px; bottom:18px; z-index:60;
+    width:46px; height:46px; cursor:pointer;
+  }
+  .cup-progress svg{ width:100%; height:100% }
+  .cup-progress .cup-outline{ fill:none; stroke:var(--green-800); stroke-width:3 }
+  .cup-progress .cup-fill{ fill:var(--gold); transition:clip-path .1s linear }
+  .cup-progress .cup-bg{ fill:#fff }
+  .cup-progress-wrap{
+    position:fixed; right:18px; bottom:18px; z-index:60;
+    width:50px; height:50px; border-radius:50%; background:#fff; box-shadow:0 8px 22px rgba(24,20,15,.18);
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---- fortune (kahve falı) ---- */
+  .fal-fab{
+    position:fixed; left:18px; bottom:18px; z-index:60;
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--green-800); color:#fff; border:none; border-radius:999px;
+    padding:12px 18px 12px 14px; font-family:'Fraunces',serif; font-weight:600; font-size:13px;
+    cursor:pointer; box-shadow:0 10px 26px rgba(18,48,35,.3);
+  }
+  .fal-fab .cupic{ font-size:16px }
+  .fal-overlay{
+    position:fixed; inset:0; z-index:100; background:rgba(12,31,23,.7);
+    display:none; align-items:center; justify-content:center; padding:22px; backdrop-filter:blur(3px);
+  }
+  .fal-overlay.show{ display:flex }
+  .fal-modal{
+    background:var(--cream); border-radius:24px; max-width:380px; width:100%; padding:36px 30px;
+    text-align:center; position:relative; box-shadow:0 40px 90px rgba(0,0,0,.4);
+    transform:scale(.9) rotate(-1deg); opacity:0; transition:.35s cubic-bezier(.2,1,.3,1);
+  }
+  .fal-overlay.show .fal-modal{ transform:scale(1) rotate(0); opacity:1 }
+  .fal-modal .close{
+    position:absolute; top:14px; right:16px; background:none; border:none; font-size:18px;
+    color:var(--muted); cursor:pointer;
+  }
+  .fal-cup{ font-size:40px; margin-bottom:6px; display:inline-block }
+  .fal-cup.spin{ animation:cupspin .6s ease }
+  @keyframes cupspin{ 0%{ transform:rotate(0) scale(1) } 50%{ transform:rotate(200deg) scale(1.15) } 100%{ transform:rotate(360deg) scale(1) } }
+  .fal-modal .eyebrow{ justify-content:center; margin:0 0 14px }
+  .fal-modal .eyebrow::before{ display:none }
+  .fal-text{
+    font-family:'Fraunces',serif; font-style:italic; font-size:19px; line-height:1.5; color:var(--green-950);
+    min-height:96px; display:flex; align-items:center; justify-content:center;
+  }
+  .fal-again{
+    margin-top:22px; background:var(--green-700); color:#fff; border:none; border-radius:10px;
+    padding:11px 20px; font-weight:700; font-size:13px; cursor:pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .status-badge.open .dot{ animation:none }
+    .fal-cup.spin{ animation:none }
+  }
+  @media (max-width:600px){
+    .fal-fab span.lbl{ display:none }
   }
 </style>
 </head>
@@ -239,6 +320,8 @@
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-copy reveal">
+        <div class="greeting" id="greeting">Merhaba</div>
+        <div class="status-badge" id="statusBadge"><span class="dot"></span><span id="statusText">Kontrol ediliyor…</span></div>
         <div class="rating-chip">
           <span class="stars">★★★★★</span>
           <b>5.0</b>
@@ -271,9 +354,9 @@
 
 <div class="stats-strip">
   <div class="wrap">
-    <div class="stat reveal"><b>5.0 ★</b><span>Google Puanı</span></div>
-    <div class="stat reveal"><b>245+</b><span>Değerlendirme</span></div>
-    <div class="stat reveal"><b>50+</b><span>Menü Çeşidi</span></div>
+    <div class="stat reveal"><b data-count data-target="5.0" data-suffix=" ★">0 ★</b><span>Google Puanı</span></div>
+    <div class="stat reveal"><b data-count data-target="245" data-suffix="+">0</b><span>Değerlendirme</span></div>
+    <div class="stat reveal"><b data-count data-target="50" data-suffix="+">0</b><span>Menü Çeşidi</span></div>
     <div class="stat reveal"><b>07:00</b><span>Hafta Sonu Açılış</span></div>
   </div>
 </div>
@@ -407,6 +490,27 @@
   </div>
 </section>
 
+<button class="fal-fab" id="falFab"><span class="cupic">☕</span><span class="lbl">Kahve Falına Bak</span></button>
+
+<div class="fal-overlay" id="falOverlay">
+  <div class="fal-modal">
+    <button class="close" id="falClose">✕</button>
+    <span class="fal-cup" id="falCup">☕</span>
+    <div class="eyebrow">Fincanın Dibinden</div>
+    <div class="fal-text" id="falText">Fincanı çevir, bakalım bugün ne çıkacak…</div>
+    <button class="fal-again" id="falAgain">Tekrar Bak</button>
+  </div>
+</div>
+
+<div class="cup-progress-wrap">
+  <svg viewBox="0 0 40 40">
+    <path class="cup-outline" d="M8 10 h20 v16 a10 10 0 0 1 -20 0 z"></path>
+    <path class="cup-outline" d="M28 14 h4 a4 4 0 0 1 0 8 h-4" style="stroke-width:2.4"></path>
+    <clipPath id="cupClip"><rect id="cupClipRect" x="8" y="26" width="20" height="0"></rect></clipPath>
+    <path class="cup-fill" d="M8 10 h20 v16 a10 10 0 0 1 -20 0 z" clip-path="url(#cupClip)"></path>
+  </svg>
+</div>
+
 <footer>
   <div class="wrap foot-grid">
     <div>
@@ -443,6 +547,142 @@
     entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   els.forEach(el => io.observe(el));
+
+  // ---- greeting + live open/closed status ----
+  (function(){
+    const now = new Date();
+    const h = now.getHours() + now.getMinutes()/60;
+    const day = now.getDay(); // 0 Sun .. 6 Sat
+    const greetEl = document.getElementById('greeting');
+    if (h < 12) greetEl.textContent = 'Günaydın ☀️';
+    else if (h < 18) greetEl.textContent = 'İyi günler';
+    else greetEl.textContent = 'İyi akşamlar';
+
+    const isWeekend = (day === 0 || day === 6);
+    const openH = isWeekend ? 7 : 5;
+    const closeH = isWeekend ? 22 : 21;
+    const isOpen = h >= openH && h < closeH;
+
+    const badge = document.getElementById('statusBadge');
+    const text = document.getElementById('statusText');
+    if (isOpen){
+      badge.classList.add('open');
+      const remain = closeH - h;
+      text.textContent = remain < 1 ? 'Şu an açığız · yakında kapanıyor' : 'Şu an açığız';
+    } else {
+      badge.classList.add('closed');
+      text.textContent = `Şu an kapalıyız · ${String(openH).padStart(2,'0')}:00'da açılıyoruz`;
+    }
+  })();
+
+  // ---- count-up stats ----
+  (function(){
+    const counters = document.querySelectorAll('[data-count]');
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseFloat(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        const isFloat = target % 1 !== 0;
+        const dur = 1400;
+        const start = performance.now();
+        function tick(now){
+          const p = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const val = target * eased;
+          el.textContent = (isFloat ? val.toFixed(1) : Math.round(val)) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        cio.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => cio.observe(c));
+  })();
+
+  // ---- hero parallax ----
+  (function(){
+    const photo = document.querySelector('.hero-photo');
+    if (!photo) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight){
+        photo.style.backgroundPosition = `center ${50 + y * 0.02}%`;
+      }
+    }, { passive: true });
+  })();
+
+  // ---- magnetic buttons (desktop only) ----
+  (function(){
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width/2;
+        const y = e.clientY - r.top - r.height/2;
+        btn.style.transform = `translate(${x*0.18}px, ${y*0.3}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = 'translate(0,0)'; });
+    });
+  })();
+
+  // ---- scroll cup progress ----
+  (function(){
+    const rect = document.getElementById('cupClipRect');
+    if (!rect) return;
+    function update(){
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const pct = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      const h = 16 * pct;
+      rect.setAttribute('y', 26 - h);
+      rect.setAttribute('height', h);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+
+  // ---- kahve falı (coffee fortune) ----
+  (function(){
+    const fortunes = [
+      "Fincanının dibinde küçük bir kalp var — kalbin bugün doğru yerde.",
+      "Yolun üstünde bir merdiven görünüyor: küçük bir adım, büyük bir değişim getirecek.",
+      "Bugün biri seni düşünüyor. Belki de sen onu ilk arayan olmalısın.",
+      "Fincanda bir kuş var — güzel bir haber yolda.",
+      "Telaşı bırak, bugünün huzuru fincanın dibinde saklı.",
+      "Bir yıldız görünüyor: uzun zamandır ertelediğin bir dileğin gerçekleşmeye yakın.",
+      "Bugün tanışacağın biri, uzun süre hatırlayacağın bir dostluğun başlangıcı olabilir.",
+      "Fincanın kenarında bir yol var — kısa bir seyahat kapıda.",
+      "İçindeki şüpheyi bırak, bardağın yarısı hep dolu görünecek bugün.",
+      "Bir kapı açılıyor: cesaretin, tam zamanında geldi.",
+      "Falında bol kahkaha var — bugün gülmeye bahane arama, kendiliğinden gelecek.",
+      "Emeğinin karşılığı yakında, belki de düşündüğünden daha yakın bir zamanda.",
+      "Fincanda bir bardak daha görünüyor — bu falı biriyle paylaşmanın vakti.",
+    ];
+    const fab = document.getElementById('falFab');
+    const overlay = document.getElementById('falOverlay');
+    const closeBtn = document.getElementById('falClose');
+    const again = document.getElementById('falAgain');
+    const textEl = document.getElementById('falText');
+    const cupEl = document.getElementById('falCup');
+
+    function showFortune(){
+      cupEl.classList.remove('spin'); void cupEl.offsetWidth; cupEl.classList.add('spin');
+      textEl.style.opacity = 0;
+      setTimeout(() => {
+        textEl.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+        textEl.style.transition = 'opacity .4s';
+        textEl.style.opacity = 1;
+      }, 280);
+    }
+    fab.addEventListener('click', () => { overlay.classList.add('show'); showFortune(); });
+    closeBtn.addEventListener('click', () => overlay.classList.remove('show'));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+    again.addEventListener('click', showFortune);
+  })();
 </script>
 
 </body>
