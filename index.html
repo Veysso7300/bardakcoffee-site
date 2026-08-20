@@ -8,12 +8,12 @@
 <meta name="description" content="Espresso bazlı kahveler, filtre kahve ve daha fazlası. Bardak Coffee, İdil / Şırnak." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --green-950:#0c1f17; --green-800:#123023; --green-700:#1c4632; --green-600:#2f6b52;
-    --cream:#f6f1e3; --paper:#efe7d1; --ink:#18140f; --muted:#6b6252;
-    --gold:#c19a3f; --rule:rgba(24,20,15,.14);
+    --green-950:#0c1f17; --green-900:#0f2a20; --green-800:#123023; --green-700:#1c4632; --green-600:#2f6b52;
+    --cream:#f7f2e4; --paper:#efe7d1; --ink:#18140f; --muted:#6b6252;
+    --gold:#c9a227; --rule:rgba(24,20,15,.13);
   }
   *{box-sizing:border-box; margin:0; padding:0}
   html{ scroll-behavior:smooth }
@@ -25,138 +25,191 @@
   .serif{font-family:'Fraunces',serif}
   img{ max-width:100%; display:block }
   a{ color:inherit }
-  .wrap{ max-width:1080px; margin:0 auto; padding:0 20px }
-  section{ padding:70px 0 }
-  .eyebrow{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--green-700); font-weight:700; margin-bottom:10px }
-  h2{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(26px,4.5vw,40px); color:var(--green-950); line-height:1.15 }
-  p{ line-height:1.65 }
+  .wrap{ max-width:1140px; margin:0 auto; padding:0 22px }
+  section{ padding:100px 0 }
+  .eyebrow{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--green-700); font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:10px }
+  .eyebrow::before{ content:""; width:26px; height:1px; background:var(--gold) }
+  h2{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(30px,5vw,48px); color:var(--green-950); line-height:1.08; letter-spacing:-.5px }
+  p{ line-height:1.7 }
+
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease }
+  .reveal.in{ opacity:1; transform:none }
 
   /* ---- nav ---- */
   nav{
-    position:sticky; top:0; z-index:40;
-    background:rgba(246,241,227,.9); backdrop-filter:blur(10px);
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,242,228,.88); backdrop-filter:blur(12px);
     border-bottom:1px solid var(--rule);
   }
-  nav .inner{ max-width:1080px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between }
-  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none }
+  nav .inner{ max-width:1140px; margin:0 auto; padding:15px 22px; display:flex; align-items:center; justify-content:space-between }
+  .brand{ display:flex; align-items:center; gap:11px; text-decoration:none }
   .brand .mark{
-    width:36px;height:36px;border-radius:50%; background:var(--green-800); color:#fff;
-    display:flex;align-items:center;justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:11px; letter-spacing:1px;
+    width:38px;height:38px;border-radius:50%; background:var(--green-800); color:#fff;
+    display:flex;align-items:center;justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:10.5px; letter-spacing:1px; line-height:1.1; text-align:center;
   }
   .brand .name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; color:var(--green-950) }
-  .navlinks{ display:none; gap:26px; font-size:13.5px; font-weight:600; color:var(--green-950) }
-  .navlinks a{ text-decoration:none; opacity:.8 }
+  .navlinks{ display:none; gap:30px; font-size:13px; font-weight:600; color:var(--green-950); letter-spacing:.02em }
+  .navlinks a{ text-decoration:none; opacity:.75; position:relative }
   .navlinks a:hover{ opacity:1 }
   .nav-cta{
-    padding:9px 16px; border-radius:10px; background:var(--green-700); color:#fff;
-    text-decoration:none; font-size:13px; font-weight:700; white-space:nowrap;
+    padding:10px 18px; border-radius:10px; background:var(--green-800); color:#fff;
+    text-decoration:none; font-size:12.5px; font-weight:700; white-space:nowrap; letter-spacing:.02em;
   }
-  @media (min-width:760px){ .navlinks{ display:flex } }
+  @media (min-width:800px){ .navlinks{ display:flex } }
 
-  /* ---- hero ---- */
-  .hero{
-    position:relative; min-height:88vh; display:flex; align-items:flex-end;
-    background:
-      linear-gradient(180deg, rgba(12,31,23,.35) 0%, rgba(12,31,23,.55) 55%, rgba(12,31,23,.92) 100%),
-      url('https://lh3.googleusercontent.com/place-photos/AG9NLjBQiTreyvJy8O1YT2Hzu0A0dxc2mgBlZlfHu7XXpOR8OeLMj8jbJfKWsdUjYq4rDutyL5_aGgRX2qJG7sXOb-XPRD1OTVcPb6YgzdWauca9ol-VW78Q48WtJ1rjwGkRLSPONoxcCWokJGHGGA=s4800-w1600-h1200') center/cover no-repeat;
-    padding-top:90px;
+  /* ---- hero: asymmetric editorial ---- */
+  .hero{ position:relative; padding:56px 0 0; overflow:hidden }
+  .hero-grid{ display:grid; gap:0; align-items:stretch }
+  .hero-copy{ padding:40px 0 60px; position:relative; z-index:2 }
+  .hero-copy .rating-chip{
+    display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--rule);
+    border-radius:999px; padding:7px 14px 7px 7px; margin-bottom:26px; box-shadow:0 6px 16px rgba(24,20,15,.06);
   }
-  .hero-inner{ position:relative; z-index:2; padding-bottom:64px; color:#fff; }
-  .hero .kicker{
-    display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.2em;
-    text-transform:uppercase; color:rgba(255,255,255,.75); margin-bottom:16px;
-  }
-  .hero .kicker::before{ content:""; width:22px; height:1px; background:var(--gold) }
+  .rating-chip .stars{ color:var(--gold); font-size:12px; letter-spacing:1px }
+  .rating-chip b{ font-size:12.5px }
+  .rating-chip span{ font-size:11.5px; color:var(--muted) }
   .hero h1{
-    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(40px,8vw,74px); line-height:1.02; letter-spacing:-1px;
-    max-width:820px;
+    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(44px,7.4vw,78px); line-height:.98; letter-spacing:-2px;
+    color:var(--green-950);
   }
+  .hero h1 em{ font-style:italic; font-weight:500; color:var(--green-700) }
   .hero .tagline{
-    font-family:'Fraunces',serif; font-style:italic; font-size:clamp(16px,2.2vw,20px); color:rgba(255,255,255,.85);
-    margin-top:18px; max-width:520px;
+    font-size:16px; color:var(--muted); margin-top:22px; max-width:420px; line-height:1.7;
   }
-  .hero-ctas{ display:flex; gap:12px; margin-top:32px; flex-wrap:wrap }
+  .hero-ctas{ display:flex; gap:12px; margin-top:34px; flex-wrap:wrap }
   .btn{
-    display:inline-flex; align-items:center; gap:8px; padding:14px 24px; border-radius:12px;
-    font-weight:700; font-size:14.5px; text-decoration:none; cursor:pointer; border:none;
+    display:inline-flex; align-items:center; gap:8px; padding:15px 26px; border-radius:12px;
+    font-weight:700; font-size:14px; text-decoration:none; cursor:pointer; border:none; letter-spacing:.01em;
   }
-  .btn-gold{ background:var(--gold); color:#1c1204 }
-  .btn-outline{ background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.35) }
+  .btn-dark{ background:var(--green-800); color:#fff }
+  .btn-line{ background:transparent; color:var(--green-950); border:1.5px solid var(--green-950) }
+
+  .hero-photo{
+    position:relative; min-height:360px;
+    background-size:cover; background-position:center;
+    border-radius:0 0 0 34px;
+  }
+  .hero-photo::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(12,31,23,0) 40%, rgba(12,31,23,.5) 100%);
+  }
+  .hero-photo .tag{
+    position:absolute; left:20px; bottom:20px; z-index:2; color:#fff;
+    font-family:'Fraunces',serif; font-style:italic; font-size:14px;
+  }
+  @media (min-width:900px){
+    .hero-grid{ grid-template-columns:1fr 1fr }
+    .hero-copy{ padding:70px 60px 90px 0 }
+    .hero-photo{ border-radius:0 0 0 60px; min-height:640px }
+  }
 
   /* ---- marquee ---- */
-  .marquee-wrap{ background:var(--green-950); overflow:hidden; padding:12px 0 }
-  .marquee{ display:flex; white-space:nowrap; animation:scroll 26s linear infinite }
-  .marquee span{ color:rgba(255,255,255,.55); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; padding:0 22px }
+  .marquee-wrap{ background:var(--green-950); overflow:hidden; padding:13px 0 }
+  .marquee{ display:flex; white-space:nowrap; animation:scroll 28s linear infinite }
+  .marquee span{ color:rgba(255,255,255,.5); font-size:11px; letter-spacing:.22em; text-transform:uppercase; padding:0 24px }
+  .marquee span.star{ color:var(--gold) }
   @keyframes scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  @media (prefers-reduced-motion: reduce){ .marquee{ animation-duration:80s } }
+  @media (prefers-reduced-motion: reduce){ .marquee{ animation-duration:90s } }
 
-  /* ---- about ---- */
-  .about{ display:grid; gap:40px; align-items:center }
-  .about .imgcol img{ border-radius:20px; box-shadow:0 24px 50px rgba(18,48,35,.18) }
-  .about p{ color:var(--muted); margin-top:16px; font-size:15.5px }
-  .stat-row{ display:flex; gap:28px; margin-top:28px; flex-wrap:wrap }
-  .stat b{ font-family:'Fraunces',serif; font-size:26px; color:var(--green-800); display:block }
-  .stat span{ font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em }
-  @media (min-width:820px){ .about{ grid-template-columns:1fr 1fr } }
+  /* ---- stats strip ---- */
+  .stats-strip{ background:var(--paper); border-bottom:1px solid var(--rule) }
+  .stats-strip .wrap{ display:grid; grid-template-columns:repeat(2,1fr); gap:26px; padding:44px 22px }
+  .stat b{ font-family:'Fraunces',serif; font-size:34px; color:var(--green-800); display:block; letter-spacing:-1px }
+  .stat span{ font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em }
+  @media (min-width:700px){ .stats-strip .wrap{ grid-template-columns:repeat(4,1fr) } }
 
-  /* ---- menu teaser ---- */
-  .menu-section{ background:var(--green-800); color:#fff; position:relative; overflow:hidden }
-  .menu-section::before{
-    content:""; position:absolute; inset:0; opacity:.06;
-    background-image: radial-gradient(circle, #fff 1.5px, transparent 1.5px);
-    background-size:26px 26px;
+  /* ---- about editorial ---- */
+  .about{ display:grid; gap:50px; align-items:center }
+  .about .imgcol{ position:relative }
+  .about .imgcol img{ border-radius:22px; box-shadow:0 30px 60px rgba(18,48,35,.2) }
+  .about .imgcol .float-quote{
+    position:absolute; bottom:-24px; left:-24px; max-width:230px; background:#fff;
+    border-radius:16px; padding:18px 20px; box-shadow:0 20px 40px rgba(24,20,15,.14);
+    font-family:'Fraunces',serif; font-style:italic; font-size:14px; color:var(--green-900); display:none;
   }
-  .menu-section .wrap{ position:relative; z-index:1 }
-  .menu-section .eyebrow{ color:rgba(255,255,255,.6) }
-  .menu-section h2{ color:#fff }
-  .cat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:32px }
-  .cat-card{
-    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:16px;
-    padding:18px; text-decoration:none; color:#fff; transition:.15s;
+  .about p{ color:var(--muted); margin-top:18px; font-size:15.5px }
+  @media (min-width:900px){
+    .about{ grid-template-columns:.9fr 1.1fr }
+    .about .imgcol .float-quote{ display:block }
   }
-  .cat-card:hover{ background:rgba(255,255,255,.11) }
-  .cat-card .ic{ font-size:22px; margin-bottom:10px }
-  .cat-card .t{ font-family:'Fraunces',serif; font-weight:600; font-size:15px }
-  .menu-cta{ margin-top:32px }
-  @media (min-width:640px){ .cat-grid{ grid-template-columns:repeat(4,1fr) } }
+
+  /* ---- highlights (menu bestsellers) ---- */
+  .highlights{ background:var(--green-800); color:#fff; position:relative; overflow:hidden }
+  .highlights::before{
+    content:""; position:absolute; inset:0; opacity:.05;
+    background-image: radial-gradient(circle, #fff 1.4px, transparent 1.4px);
+    background-size:24px 24px;
+  }
+  .highlights .wrap{ position:relative; z-index:1 }
+  .highlights .eyebrow{ color:rgba(255,255,255,.55) }
+  .highlights .eyebrow::before{ background:var(--gold) }
+  .highlights h2{ color:#fff }
+  .hl-head{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px }
+  .hl-grid{ display:grid; grid-template-columns:1fr; gap:12px; margin-top:40px }
+  .hl-card{
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.13); border-radius:16px;
+    padding:20px; display:flex; justify-content:space-between; align-items:center; gap:14px;
+    transition:.15s;
+  }
+  .hl-card:hover{ background:rgba(255,255,255,.09); transform:translateX(4px) }
+  .hl-card .name{ font-family:'Fraunces',serif; font-weight:600; font-size:16.5px }
+  .hl-card .cat{ font-size:11px; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.1em; margin-top:4px }
+  .hl-card .price{ font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--gold); font-size:15px; white-space:nowrap }
+  @media (min-width:760px){ .hl-grid{ grid-template-columns:1fr 1fr } }
+  .menu-cta{ margin-top:36px }
+
+  /* ---- testimonials ---- */
+  .testi-head{ text-align:center; max-width:560px; margin:0 auto }
+  .testi-head .eyebrow{ justify-content:center }
+  .testi-head .eyebrow::before{ display:none }
+  .testi-grid{ display:grid; gap:16px; margin-top:44px }
+  .testi-card{
+    background:#fff; border:1px solid var(--rule); border-radius:20px; padding:28px;
+    box-shadow:0 10px 26px rgba(24,20,15,.05);
+  }
+  .testi-card .stars{ color:var(--gold); font-size:13px; letter-spacing:2px; margin-bottom:14px }
+  .testi-card p{ font-family:'Fraunces',serif; font-style:italic; font-size:16px; color:var(--ink); line-height:1.6 }
+  .testi-card .who{ margin-top:16px; font-size:12.5px; color:var(--muted); font-weight:600 }
+  @media (min-width:820px){ .testi-grid{ grid-template-columns:repeat(3,1fr) } }
 
   /* ---- gallery ---- */
-  .gallery-grid{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:32px;
-  }
-  .gallery-grid img{ border-radius:16px; width:100%; height:220px; object-fit:cover }
-  .gallery-grid .tall{ height:456px }
+  .gallery-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:40px }
+  .gallery-grid img{ border-radius:18px; width:100%; height:230px; object-fit:cover; transition:.3s }
+  .gallery-grid a:hover img{ transform:scale(1.03) }
+  .gallery-grid .tall{ height:474px }
+  .gallery-grid a{ overflow:hidden; border-radius:18px; display:block }
   @media (min-width:720px){
-    .gallery-grid{ grid-template-columns:repeat(4,1fr); grid-auto-rows:220px }
+    .gallery-grid{ grid-template-columns:repeat(4,1fr); grid-auto-rows:230px }
     .gallery-grid .tall{ grid-row: span 2; height:auto }
   }
 
-  /* ---- hours & location ---- */
-  .split{ display:grid; gap:14px }
-  @media (min-width:820px){ .split{ grid-template-columns:1fr 1fr } }
+  /* ---- contact ---- */
+  .split{ display:grid; gap:16px }
+  @media (min-width:860px){ .split{ grid-template-columns:1fr 1fr } }
   .card{
-    background:#fff; border:1px solid var(--rule); border-radius:20px; padding:26px;
-    box-shadow:0 10px 26px rgba(24,20,15,.05);
+    background:#fff; border:1px solid var(--rule); border-radius:22px; padding:30px;
+    box-shadow:0 12px 30px rgba(24,20,15,.05);
   }
-  .card .ic{ font-size:22px; margin-bottom:12px }
-  .card h3{ font-family:'Fraunces',serif; font-size:19px; margin-bottom:12px; color:var(--green-950) }
-  .hours-row{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px dotted var(--rule); font-size:14px }
+  .card .ic{ font-size:24px; margin-bottom:14px }
+  .card h3{ font-family:'Fraunces',serif; font-size:20px; margin-bottom:14px; color:var(--green-950) }
+  .hours-row{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px dotted var(--rule); font-size:14px }
   .hours-row:last-child{ border-bottom:none }
   .hours-row b{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--green-800) }
-  .map-embed{ border-radius:14px; overflow:hidden; margin-top:14px; border:1px solid var(--rule) }
-  .map-embed iframe{ width:100%; height:220px; border:0; display:block }
+  .map-embed{ border-radius:16px; overflow:hidden; margin-top:16px; border:1px solid var(--rule) }
+  .map-embed iframe{ width:100%; height:230px; border:0; display:block }
+  .contact-link{ text-decoration:underline; text-underline-offset:3px }
 
-  /* ---- contact / footer ---- */
-  footer{ background:var(--green-950); color:rgba(255,255,255,.7); padding:50px 0 26px }
-  .foot-grid{ display:grid; gap:28px }
+  /* ---- footer ---- */
+  footer{ background:var(--green-950); color:rgba(255,255,255,.7); padding:56px 0 28px }
+  .foot-grid{ display:grid; gap:32px }
   @media (min-width:760px){ .foot-grid{ grid-template-columns:1.3fr 1fr 1fr } }
   footer .brand .name{ color:#fff }
-  footer .fcol h4{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:14px }
-  footer .fcol a{ display:block; text-decoration:none; color:rgba(255,255,255,.75); font-size:14px; margin-bottom:9px }
+  footer .fcol h4{ font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.42); margin-bottom:15px }
+  footer .fcol a{ display:block; text-decoration:none; color:rgba(255,255,255,.75); font-size:14px; margin-bottom:10px }
   footer .fcol a:hover{ color:#fff }
-  footer p.desc{ font-size:13.5px; color:rgba(255,255,255,.5); max-width:320px; margin-top:12px; line-height:1.6 }
+  footer p.desc{ font-size:13.5px; color:rgba(255,255,255,.5); max-width:320px; margin-top:14px; line-height:1.65 }
   .foot-bottom{
-    margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,.1);
+    margin-top:44px; padding-top:22px; border-top:1px solid rgba(255,255,255,.1);
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:11.5px; color:rgba(255,255,255,.4);
   }
 </style>
@@ -172,6 +225,7 @@
     <div class="navlinks">
       <a href="#hakkimizda">Hakkımızda</a>
       <a href="#menu">Menü</a>
+      <a href="#yorumlar">Yorumlar</a>
       <a href="#galeri">Galeri</a>
       <a href="#iletisim">İletişim</a>
     </div>
@@ -180,104 +234,168 @@
 </nav>
 
 <div id="top"></div>
+
 <header class="hero">
-  <div class="wrap hero-inner">
-    <div class="kicker">İdil, Şırnak</div>
-    <h1>Yudum yudum<br>bir mola.</h1>
-    <p class="tagline">"iyi bir bardak, iyi bir mola demektir." Espresso bazlı kahveler, filtre kahve ve daha fazlası — Bardak Coffee'de.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-gold" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">📖 Menüyü İncele</a>
-      <a class="btn btn-outline" href="#iletisim">📍 Bize Ulaşın</a>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy reveal">
+        <div class="rating-chip">
+          <span class="stars">★★★★★</span>
+          <b>5.0</b>
+          <span>· 245 değerlendirme</span>
+        </div>
+        <h1>Yudum yudum<br><em>bir mola.</em></h1>
+        <p class="tagline">"iyi bir bardak, iyi bir mola demektir." İdil'in kalbinde; espresso bazlı kahveler, filtre kahve ve taze lezzetlerle dolu bir durak.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-dark" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">📖 Menüyü İncele</a>
+          <a class="btn btn-line" href="#iletisim">📍 Yol Tarifi</a>
+        </div>
+      </div>
+      <div class="hero-photo" style="background-image:url('https://lh3.googleusercontent.com/place-photos/AG9NLjBQiTreyvJy8O1YT2Hzu0A0dxc2mgBlZlfHu7XXpOR8OeLMj8jbJfKWsdUjYq4rDutyL5_aGgRX2qJG7sXOb-XPRD1OTVcPb6YgzdWauca9ol-VW78Q48WtJ1rjwGkRLSPONoxcCWokJGHGGA=s4800-w1600-h1600')">
+        <div class="tag">Bardak Coffee, İdil</div>
+      </div>
     </div>
   </div>
 </header>
 
 <div class="marquee-wrap">
   <div class="marquee mono">
-    <span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span><span>·</span>
-    <span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span><span>·</span>
-    <span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span><span>·</span>
-    <span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span><span>·</span>
-    <span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span><span>·</span>
-    <span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span><span>·</span>
+    <span class="star">★</span><span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span>
+    <span class="star">★</span><span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span>
+    <span class="star">★</span><span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span>
+    <span class="star">★</span><span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span>
+    <span class="star">★</span><span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span>
+    <span class="star">★</span><span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="wrap">
+    <div class="stat reveal"><b>5.0 ★</b><span>Google Puanı</span></div>
+    <div class="stat reveal"><b>245+</b><span>Değerlendirme</span></div>
+    <div class="stat reveal"><b>50+</b><span>Menü Çeşidi</span></div>
+    <div class="stat reveal"><b>07:00</b><span>Hafta Sonu Açılış</span></div>
   </div>
 </div>
 
 <section id="hakkimizda">
   <div class="wrap about">
-    <div class="imgcol">
-      <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjC6tYcorbn4gol1nMP_FulA8Te-6ZR3ZYDll_1VxV4eAj2Ypk3mRfJuGVN0RF3QcGq8BBtickAHvnnRcBGyG1EO_EVR5CDWQIxh8n9SpTRrD9qJ9_QDnxHNnhMquHcyyfzRSgoisj0UTv0TZQ=s4800-w1200-h900" alt="Bardak Coffee mekan">
+    <div class="imgcol reveal">
+      <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjC6tYcorbn4gol1nMP_FulA8Te-6ZR3ZYDll_1VxV4eAj2Ypk3mRfJuGVN0RF3QcGq8BBtickAHvnnRcBGyG1EO_EVR5CDWQIxh8n9SpTRrD9qJ9_QDnxHNnhMquHcyyfzRSgoisj0UTv0TZQ=s4800-w1200-h1200" alt="Bardak Coffee mekan">
+      <div class="float-quote">"Bağdat Caddesi ambiyansını İdil'in ortasında bulduk."</div>
     </div>
-    <div>
+    <div class="reveal">
       <div class="eyebrow">Biz Kimiz</div>
       <h2>Muhteşem bir fincan kahvenin yerini hiçbir şey tutmaz.</h2>
       <p>Dünyanın dört bir yanından gelen leziz kahve çekirdekleriyle demlediğimiz yoğun aromalardan kaymağımsı dokuda lezzetlere kadar birçok seçenekle sizi rahatlatacak bir kahve deneyimi sunuyoruz. Bardak Coffee çatısı altında her müşterimiz için özenle hazırlanmış kahveler, taze pastalar ve bitki çayları var — İdil'in kalbinde, yudum yudum için.</p>
-      <div class="stat-row">
-        <div class="stat"><b>50+</b><span>Menü Çeşidi</span></div>
-        <div class="stat"><b>7/7</b><span>Açık</span></div>
-        <div class="stat"><b>05:00</b><span>İlk Fincan</span></div>
+      <p>Misafirperverliğimiz kadar, her fincanın arkasındaki özene de önem veriyoruz. Kapımızdan girdiğiniz an bir yabancı değil, ailenin bir parçası gibi hissetmenizi istiyoruz.</p>
+    </div>
+  </div>
+</section>
+
+<section class="highlights" id="menu">
+  <div class="wrap">
+    <div class="hl-head">
+      <div class="reveal">
+        <div class="eyebrow">Menüden Seçmeler</div>
+        <h2>Öne çıkan<br>birkaç bardak.</h2>
+      </div>
+    </div>
+    <div class="hl-grid">
+      <div class="hl-card reveal">
+        <div><div class="name">Cold Brew</div><div class="cat">Iced Coffees</div></div>
+        <div class="price">150₺</div>
+      </div>
+      <div class="hl-card reveal">
+        <div><div class="name">Cheesecake San Sebastian</div><div class="cat">Pastalar &amp; Kekler</div></div>
+        <div class="price">190₺</div>
+      </div>
+      <div class="hl-card reveal">
+        <div><div class="name">Özel Demleme</div><div class="cat">Chemex / V60</div></div>
+        <div class="price">180₺</div>
+      </div>
+      <div class="hl-card reveal">
+        <div><div class="name">Salted Caramel Latte</div><div class="cat">Sıcak Kahveler</div></div>
+        <div class="price">145₺ / 155₺</div>
+      </div>
+      <div class="hl-card reveal">
+        <div><div class="name">Türk Kahvesi</div><div class="cat">Sıcak Kahveler</div></div>
+        <div class="price">90₺</div>
+      </div>
+      <div class="hl-card reveal">
+        <div><div class="name">Mavi Çiçekli Earl Grey</div><div class="cat">Bitki Çayları</div></div>
+        <div class="price">120₺</div>
+      </div>
+    </div>
+    <a class="btn btn-dark menu-cta" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Tüm Menüyü Gör →</a>
+  </div>
+</section>
+
+<section id="yorumlar">
+  <div class="wrap">
+    <div class="testi-head reveal">
+      <div class="eyebrow">Bizden Bahsedenler</div>
+      <h2>Google'da 5.0 ★ — 245 değerlendirme</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"İdil'de gerçekten fark yaratan bir yer. Personelin sıcakkanlılığı ve hizmet kalitesi takdire şayan — kendinizi yabancı değil, ailenin bir parçası gibi hissediyorsunuz."</p>
+        <div class="who">Google yorumu</div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"İdil'de İstanbul'un Bağdat Caddesi ambiyansını bulacağımızı hiç beklemiyorduk. Kahveleri gerçekten kaliteli, ev yapımı tatlıları ise nefis."</p>
+        <div class="who">Google yorumu</div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Küçük bir mekân ama ürün kalitesi çok yüksek. Kahveleri zincir kafelerden bile üstün, müzik seçimleri de harika."</p>
+        <div class="who">Google yorumu</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="menu-section" id="menu">
-  <div class="wrap">
-    <div class="eyebrow">Menüde Ne Var?</div>
-    <h2>Her damak zevkine göre<br>bir bardak.</h2>
-    <div class="cat-grid">
-      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
-        <div class="ic">🧊</div><div class="t">Iced Coffees</div>
-      </a>
-      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
-        <div class="ic">🔥</div><div class="t">Sıcak Kahveler</div>
-      </a>
-      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
-        <div class="ic">🌿</div><div class="t">Bitki Çayları</div>
-      </a>
-      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
-        <div class="ic">🍰</div><div class="t">Pastalar &amp; Kekler</div>
-      </a>
-    </div>
-    <a class="btn btn-gold menu-cta" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Tüm Menüyü Gör →</a>
-  </div>
-</section>
-
 <section id="galeri">
   <div class="wrap">
-    <div class="eyebrow">Galeri</div>
-    <h2>Bardak Coffee'den kareler.</h2>
-    <div class="gallery-grid">
-      <img class="tall" src="https://lh3.googleusercontent.com/place-photos/AG9NLjCrIi2vj1A74TsqOfYPdAdNMP6kVz0gnXPPAjs2oyOd674raGv5TWSuJCpHJ6KX6QNtG8XnxC3Tg1edt_R0ZgyqA_w5Uxav8EBS-JSKyq3cl4OnpFfC-Bjvec1cWjgQzumYc0FXSdjUOUOtRFM=s4800-w900-h900" alt="Bardak Coffee">
-      <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjAixEPCWoTvJCVrEukM6iPlDDWb173LUUEiygh5jwR_OzXQ3SNGJ2-wDdnVHO7KxoZpNPZFV5HWO7VdQ2Vh9gg1V_ibfWRAgv_8LecNM0kXX2J4tosOzQHAXAe9tc82vPfuW2Xm_MvPYNdYlWc=s4800-w900-h900" alt="Bardak Coffee">
-      <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjAAlccyASNY74Qb6KVrOUvCrmkVdd7XfhlD7vendGlKbDSxS_YKXkKNRzD9hC20aTC0rDbUBoBF65lPypVID6sYwcnvjR4MW1O2MwLIo2VfOGMMblC3NiCLazTlmYS-t6PT6NRn_AmneBjx=s4800-w900-h900" alt="Bardak Coffee">
-      <img src="https://images.unsplash.com/photo-1659882617003-4a0c077e2768?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Latte">
-      <img src="https://images.unsplash.com/photo-1675125530909-15213f01a9e1?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Kruvasan">
+    <div class="eyebrow reveal">Galeri</div>
+    <h2 class="reveal">Bardak Coffee'den kareler.</h2>
+    <div class="gallery-grid reveal">
+      <a href="https://maps.google.com/?cid=4177499153605425519" target="_blank" rel="noopener" class="tall">
+        <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjCrIi2vj1A74TsqOfYPdAdNMP6kVz0gnXPPAjs2oyOd674raGv5TWSuJCpHJ6KX6QNtG8XnxC3Tg1edt_R0ZgyqA_w5Uxav8EBS-JSKyq3cl4OnpFfC-Bjvec1cWjgQzumYc0FXSdjUOUOtRFM=s4800-w900-h1200" alt="Bardak Coffee">
+      </a>
+      <a href="https://maps.google.com/?cid=4177499153605425519" target="_blank" rel="noopener">
+        <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjAixEPCWoTvJCVrEukM6iPlDDWb173LUUEiygh5jwR_OzXQ3SNGJ2-wDdnVHO7KxoZpNPZFV5HWO7VdQ2Vh9gg1V_ibfWRAgv_8LecNM0kXX2J4tosOzQHAXAe9tc82vPfuW2Xm_MvPYNdYlWc=s4800-w900-h900" alt="Bardak Coffee">
+      </a>
+      <a href="https://maps.google.com/?cid=4177499153605425519" target="_blank" rel="noopener">
+        <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjAAlccyASNY74Qb6KVrOUvCrmkVdd7XfhlD7vendGlKbDSxS_YKXkKNRzD9hC20aTC0rDbUBoBF65lPypVID6sYwcnvjR4MW1O2MwLIo2VfOGMMblC3NiCLazTlmYS-t6PT6NRn_AmneBjx=s4800-w900-h900" alt="Bardak Coffee">
+      </a>
+      <a href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
+        <img src="https://images.unsplash.com/photo-1659882617003-4a0c077e2768?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Latte">
+      </a>
     </div>
   </div>
 </section>
 
 <section id="iletisim">
   <div class="wrap">
-    <div class="eyebrow">İletişim</div>
-    <h2>Bizi ziyaret edin.</h2>
-    <div class="split" style="margin-top:32px">
-      <div class="card">
+    <div class="eyebrow reveal">İletişim</div>
+    <h2 class="reveal">Bizi ziyaret edin.</h2>
+    <div class="split" style="margin-top:36px">
+      <div class="card reveal">
         <div class="ic">🕒</div>
         <h3>Çalışma Saatleri</h3>
         <div class="hours-row"><span>Pazartesi – Cuma</span><b>05:00 – 21:00</b></div>
         <div class="hours-row"><span>Cumartesi – Pazar</span><b>07:00 – 22:00</b></div>
       </div>
-      <div class="card">
+      <div class="card reveal">
         <div class="ic">📍</div>
         <h3>Konum &amp; İletişim</h3>
         <p style="color:var(--muted); font-size:14.5px">Yukarı Mahallesi, Hükümet Caddesi No:71/D, İdil / Şırnak</p>
         <p style="color:var(--muted); font-size:14.5px; margin-top:6px">
-          <a href="tel:+905358644285" style="text-decoration:underline">+90 535 864 42 85</a>
-        </p>
-        <p style="color:var(--muted); font-size:14.5px; margin-top:6px">
-          <a href="mailto:semizsf@gmail.com" style="text-decoration:underline">semizsf@gmail.com</a> ·
-          <a href="https://www.instagram.com/bardakcoffee" target="_blank" rel="noopener" style="text-decoration:underline">@bardakcoffee</a>
+          <a href="tel:+905358644285" class="contact-link">+90 535 864 42 85</a> ·
+          <a href="https://www.instagram.com/bardakcoffee" target="_blank" rel="noopener" class="contact-link">@bardakcoffee</a>
         </p>
         <div class="map-embed">
           <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
@@ -302,12 +420,13 @@
       <h4>Keşfet</h4>
       <a href="#hakkimizda">Hakkımızda</a>
       <a href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Menü</a>
+      <a href="#yorumlar">Yorumlar</a>
       <a href="#galeri">Galeri</a>
       <a href="#iletisim">İletişim</a>
     </div>
     <div class="fcol">
       <h4>Bize Ulaşın</h4>
-      <a href="mailto:semizsf@gmail.com">semizsf@gmail.com</a>
+      <a href="tel:+905358644285">+90 535 864 42 85</a>
       <a href="https://www.instagram.com/bardakcoffee" target="_blank" rel="noopener">Instagram</a>
       <a href="https://maps.google.com/?cid=4177499153605425519" target="_blank" rel="noopener">Konum</a>
     </div>
@@ -317,6 +436,14 @@
     <span>Made by Veysi Varlı</span>
   </div>
 </footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
