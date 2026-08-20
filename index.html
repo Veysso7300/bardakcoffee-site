@@ -507,10 +507,10 @@
 <section id="eslesme">
   <div class="wrap" style="text-align:center">
     <div class="eyebrow reveal" style="justify-content:center"><span style="display:none"></span>Sana Ne Uyar?</div>
-    <h2 class="reveal">3 soru, sana özel<br>bir bardak.</h2>
+    <h2 class="reveal">4 soru, damak zevkine<br>özel bir bardak.</h2>
     <div class="quiz-card reveal" id="quizCard">
       <div class="quiz-progress">
-        <span id="qp1"></span><span id="qp2"></span><span id="qp3"></span>
+        <span id="qp1"></span><span id="qp2"></span><span id="qp3"></span><span id="qp4"></span>
       </div>
 
       <div class="quiz-step" data-step="1">
@@ -530,10 +530,21 @@
       </div>
 
       <div class="quiz-step" data-step="3" style="display:none">
-        <div class="quiz-q">Enerji mi, rahatlama mı?</div>
+        <div class="quiz-q">Ne arıyorsun?</div>
         <div class="quiz-opts">
           <button class="quiz-opt" data-q="3" data-v="enerji">⚡ Enerji</button>
           <button class="quiz-opt" data-q="3" data-v="rahat">🌿 Rahatlama</button>
+          <button class="quiz-opt" data-q="3" data-v="ferah">💧 Ferahlama</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="4" style="display:none">
+        <div class="quiz-q">Damak tercihin?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" data-q="4" data-v="kahve">☕ Kahve Ağırlıklı</button>
+          <button class="quiz-opt" data-q="4" data-v="cikolata">🍫 Çikolata / Karamel</button>
+          <button class="quiz-opt" data-q="4" data-v="meyve">🍓 Meyve / Ferah</button>
+          <button class="quiz-opt" data-q="4" data-v="bitki">🌿 Bitkisel / Sade</button>
         </div>
       </div>
 
@@ -889,22 +900,70 @@
     steps.forEach(s => tio.observe(s));
   })();
 
-  // ---- menu matcher quiz ----
+  // ---- menu matcher quiz: gerçek menüden etiketli havuz + puanlama ----
   (function(){
     const card = document.getElementById('quizCard');
     if (!card) return;
     const answers = {};
-    const recs = {
-      "tatli-soguk-enerji": { name:"Iced Caramel Macchiato", cat:"Iced Coffees", price:"155₺" },
-      "tatli-soguk-rahat":  { name:"Iced White Chocolate Mocha", cat:"Iced Coffees", price:"155₺" },
-      "tatli-sicak-enerji": { name:"Caramel Macchiato", cat:"Sıcak Kahveler", price:"145₺ / 155₺" },
-      "tatli-sicak-rahat":  { name:"Sıcak Çikolata", cat:"Non-Coffee", price:"130₺ / 140₺" },
-      "sade-soguk-enerji":  { name:"Cold Brew", cat:"Iced Coffees", price:"150₺" },
-      "sade-soguk-rahat":   { name:"Iced Filter Coffee", cat:"Iced Coffees", price:"140₺" },
-      "sade-sicak-enerji":  { name:"Espresso (Double)", cat:"Sıcak Kahveler", price:"100₺" },
-      "sade-sicak-rahat":   { name:"Filtre Kahve", cat:"Sıcak Kahveler", price:"130₺ / 135₺" },
-    };
-    const dots = [document.getElementById('qp1'), document.getElementById('qp2'), document.getElementById('qp3')];
+
+    // Gerçek menüden geniş bir havuz. tatli/sade ve sicak/soguk KESİN filtre;
+    // amac (enerji/rahat/ferah) ve damak (kahve/cikolata/meyve/bitki) puanlamayla en yakını seçer.
+    const POOL = [
+      { name:"Cold Brew", cat:"Iced Coffees", price:"150₺", tatli:"sade", sicaklik:"soguk", amac:["enerji"], damak:["kahve"] },
+      { name:"Iced Filter Coffee", cat:"Iced Coffees", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["rahat"], damak:["kahve"] },
+      { name:"Iced Americano", cat:"Iced Coffees", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["enerji","ferah"], damak:["kahve"] },
+      { name:"Iced Cortado", cat:"Iced Coffees", price:"130₺", tatli:"sade", sicaklik:"soguk", amac:["rahat"], damak:["kahve"] },
+      { name:"Iced Caramel Macchiato", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["enerji"], damak:["cikolata"] },
+      { name:"Iced Salted Caramel Latte", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"] },
+      { name:"Iced White Chocolate Mocha", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"] },
+      { name:"Iced Lotus", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"] },
+      { name:"Cool Lime", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
+      { name:"Limonata", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
+      { name:"Lemon Hibiscus", cat:"Non-Coffee", price:"155₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
+      { name:"Mango Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
+      { name:"Çilek Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
+      { name:"Matcha Latte", cat:"Non-Coffee", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["bitki"] },
+      { name:"Sade Kombucha", cat:"Kombucha", price:"160₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["bitki"] },
+      { name:"Yasemin Kombucha", cat:"Kombucha", price:"160₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["bitki"] },
+      { name:"Espresso (Double)", cat:"Sıcak Kahveler", price:"100₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"] },
+      { name:"Türk Kahvesi", cat:"Sıcak Kahveler", price:"90₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"] },
+      { name:"Filtre Kahve", cat:"Sıcak Kahveler", price:"130₺ / 135₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"] },
+      { name:"Özel Demleme (Chemex / V60)", cat:"Sıcak Kahveler", price:"180₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"] },
+      { name:"Flat White", cat:"Sıcak Kahveler", price:"140₺ / 150₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"] },
+      { name:"Caramel Macchiato", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["enerji"], damak:["cikolata"] },
+      { name:"Salted Caramel Latte", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
+      { name:"Caffe Mocha", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
+      { name:"Lotus", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
+      { name:"Sıcak Çikolata", cat:"Non-Coffee", price:"130₺ / 140₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
+      { name:"Chai Tea Latte", cat:"Non-Coffee", price:"130₺ / 140₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
+      { name:"Mavi Çiçekli Earl Grey", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
+      { name:"Ihlamur Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
+      { name:"Melisa Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
+      { name:"Yeşil Çay", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["ferah"], damak:["bitki"] },
+      { name:"Tropikal Çay", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["ferah"], damak:["meyve"] },
+      { name:"Kış Çayı", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["meyve"] },
+      { name:"Guarena", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["bitki"] },
+    ];
+
+    function findMatch(a){
+      // 1) kesin filtre: tatli/sade + sicak/soguk
+      let candidates = POOL.filter(p => p.tatli === a[1] && p.sicaklik === a[2]);
+      if (!candidates.length) candidates = POOL.filter(p => p.sicaklik === a[2]); // sıcaklık her zaman korunur
+      if (!candidates.length) candidates = POOL.slice();
+
+      // 2) puanlama: amac ve damak eşleşmesine göre
+      let scored = candidates.map(p => {
+        let score = 0;
+        if (p.amac.includes(a[3])) score += 2;
+        if (p.damak.includes(a[4])) score += 3;
+        return { ...p, score };
+      });
+      scored.sort((x,y) => y.score - x.score);
+      const top = scored.filter(s => s.score === scored[0].score);
+      return top[Math.floor(Math.random() * top.length)];
+    }
+
+    const dots = [document.getElementById('qp1'), document.getElementById('qp2'), document.getElementById('qp3'), document.getElementById('qp4')];
 
     card.querySelectorAll('.quiz-opt').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -913,11 +972,10 @@
         dots[q-1].classList.add('done');
         const cur = card.querySelector(`.quiz-step[data-step="${q}"]`);
         cur.style.display = 'none';
-        if (q < 3){
+        if (q < 4){
           card.querySelector(`.quiz-step[data-step="${Number(q)+1}"]`).style.display = 'block';
         } else {
-          const key = `${answers[1]}-${answers[2]}-${answers[3]}`;
-          const r = recs[key];
+          const r = findMatch(answers);
           document.getElementById('qrName').textContent = r.name;
           document.getElementById('qrCat').textContent = r.cat;
           document.getElementById('qrPrice').textContent = r.price;
