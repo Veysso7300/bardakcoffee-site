@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#123023" />
+<title>Bardak Coffee — Şırnak</title>
+<meta name="description" content="Espresso bazlı kahveler, filtre kahve ve daha fazlası. Bardak Coffee, Şırnak." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-950:#0c1f17; --green-800:#123023; --green-700:#1c4632; --green-600:#2f6b52;
+    --cream:#f6f1e3; --paper:#efe7d1; --ink:#18140f; --muted:#6b6252;
+    --gold:#c19a3f; --rule:rgba(24,20,15,.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{ scroll-behavior:smooth }
+  body{
+    font-family:'Work Sans',system-ui,sans-serif; color:var(--ink); background:var(--cream);
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+  .serif{font-family:'Fraunces',serif}
+  img{ max-width:100%; display:block }
+  a{ color:inherit }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 20px }
+  section{ padding:70px 0 }
+  .eyebrow{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--green-700); font-weight:700; margin-bottom:10px }
+  h2{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(26px,4.5vw,40px); color:var(--green-950); line-height:1.15 }
+  p{ line-height:1.65 }
+
+  /* ---- nav ---- */
+  nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(246,241,227,.9); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--rule);
+  }
+  nav .inner{ max-width:1080px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none }
+  .brand .mark{
+    width:36px;height:36px;border-radius:50%; background:var(--green-800); color:#fff;
+    display:flex;align-items:center;justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:11px; letter-spacing:1px;
+  }
+  .brand .name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; color:var(--green-950) }
+  .navlinks{ display:none; gap:26px; font-size:13.5px; font-weight:600; color:var(--green-950) }
+  .navlinks a{ text-decoration:none; opacity:.8 }
+  .navlinks a:hover{ opacity:1 }
+  .nav-cta{
+    padding:9px 16px; border-radius:10px; background:var(--green-700); color:#fff;
+    text-decoration:none; font-size:13px; font-weight:700; white-space:nowrap;
+  }
+  @media (min-width:760px){ .navlinks{ display:flex } }
+
+  /* ---- hero ---- */
+  .hero{
+    position:relative; min-height:88vh; display:flex; align-items:flex-end;
+    background:
+      linear-gradient(180deg, rgba(12,31,23,.35) 0%, rgba(12,31,23,.55) 55%, rgba(12,31,23,.92) 100%),
+      url('https://images.unsplash.com/photo-1744366714235-fc55fff4d9d6?fm=jpg&q=70&w=1800&auto=format&fit=crop') center/cover no-repeat;
+    padding-top:90px;
+  }
+  .hero-inner{ position:relative; z-index:2; padding-bottom:64px; color:#fff; }
+  .hero .kicker{
+    display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.2em;
+    text-transform:uppercase; color:rgba(255,255,255,.75); margin-bottom:16px;
+  }
+  .hero .kicker::before{ content:""; width:22px; height:1px; background:var(--gold) }
+  .hero h1{
+    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(40px,8vw,74px); line-height:1.02; letter-spacing:-1px;
+    max-width:820px;
+  }
+  .hero .tagline{
+    font-family:'Fraunces',serif; font-style:italic; font-size:clamp(16px,2.2vw,20px); color:rgba(255,255,255,.85);
+    margin-top:18px; max-width:520px;
+  }
+  .hero-ctas{ display:flex; gap:12px; margin-top:32px; flex-wrap:wrap }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:14px 24px; border-radius:12px;
+    font-weight:700; font-size:14.5px; text-decoration:none; cursor:pointer; border:none;
+  }
+  .btn-gold{ background:var(--gold); color:#1c1204 }
+  .btn-outline{ background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.35) }
+
+  /* ---- marquee ---- */
+  .marquee-wrap{ background:var(--green-950); overflow:hidden; padding:12px 0 }
+  .marquee{ display:flex; white-space:nowrap; animation:scroll 26s linear infinite }
+  .marquee span{ color:rgba(255,255,255,.55); font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; padding:0 22px }
+  @keyframes scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @media (prefers-reduced-motion: reduce){ .marquee{ animation-duration:80s } }
+
+  /* ---- about ---- */
+  .about{ display:grid; gap:40px; align-items:center }
+  .about .imgcol img{ border-radius:20px; box-shadow:0 24px 50px rgba(18,48,35,.18) }
+  .about p{ color:var(--muted); margin-top:16px; font-size:15.5px }
+  .stat-row{ display:flex; gap:28px; margin-top:28px; flex-wrap:wrap }
+  .stat b{ font-family:'Fraunces',serif; font-size:26px; color:var(--green-800); display:block }
+  .stat span{ font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em }
+  @media (min-width:820px){ .about{ grid-template-columns:1fr 1fr } }
+
+  /* ---- menu teaser ---- */
+  .menu-section{ background:var(--green-800); color:#fff; position:relative; overflow:hidden }
+  .menu-section::before{
+    content:""; position:absolute; inset:0; opacity:.06;
+    background-image: radial-gradient(circle, #fff 1.5px, transparent 1.5px);
+    background-size:26px 26px;
+  }
+  .menu-section .wrap{ position:relative; z-index:1 }
+  .menu-section .eyebrow{ color:rgba(255,255,255,.6) }
+  .menu-section h2{ color:#fff }
+  .cat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:32px }
+  .cat-card{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:16px;
+    padding:18px; text-decoration:none; color:#fff; transition:.15s;
+  }
+  .cat-card:hover{ background:rgba(255,255,255,.11) }
+  .cat-card .ic{ font-size:22px; margin-bottom:10px }
+  .cat-card .t{ font-family:'Fraunces',serif; font-weight:600; font-size:15px }
+  .menu-cta{ margin-top:32px }
+  @media (min-width:640px){ .cat-grid{ grid-template-columns:repeat(4,1fr) } }
+
+  /* ---- gallery ---- */
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:32px;
+  }
+  .gallery-grid img{ border-radius:16px; width:100%; height:220px; object-fit:cover }
+  .gallery-grid .tall{ height:456px }
+  @media (min-width:720px){
+    .gallery-grid{ grid-template-columns:repeat(4,1fr); grid-auto-rows:220px }
+    .gallery-grid .tall{ grid-row: span 2; height:auto }
+  }
+
+  /* ---- hours & location ---- */
+  .split{ display:grid; gap:14px }
+  @media (min-width:820px){ .split{ grid-template-columns:1fr 1fr } }
+  .card{
+    background:#fff; border:1px solid var(--rule); border-radius:20px; padding:26px;
+    box-shadow:0 10px 26px rgba(24,20,15,.05);
+  }
+  .card .ic{ font-size:22px; margin-bottom:12px }
+  .card h3{ font-family:'Fraunces',serif; font-size:19px; margin-bottom:12px; color:var(--green-950) }
+  .hours-row{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px dotted var(--rule); font-size:14px }
+  .hours-row:last-child{ border-bottom:none }
+  .hours-row b{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--green-800) }
+  .map-embed{ border-radius:14px; overflow:hidden; margin-top:14px; border:1px solid var(--rule) }
+  .map-embed iframe{ width:100%; height:220px; border:0; display:block }
+
+  /* ---- contact / footer ---- */
+  footer{ background:var(--green-950); color:rgba(255,255,255,.7); padding:50px 0 26px }
+  .foot-grid{ display:grid; gap:28px }
+  @media (min-width:760px){ .foot-grid{ grid-template-columns:1.3fr 1fr 1fr } }
+  footer .brand .name{ color:#fff }
+  footer .fcol h4{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:14px }
+  footer .fcol a{ display:block; text-decoration:none; color:rgba(255,255,255,.75); font-size:14px; margin-bottom:9px }
+  footer .fcol a:hover{ color:#fff }
+  footer p.desc{ font-size:13.5px; color:rgba(255,255,255,.5); max-width:320px; margin-top:12px; line-height:1.6 }
+  .foot-bottom{
+    margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,.1);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:11.5px; color:rgba(255,255,255,.4);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="brand" href="#top">
+      <span class="mark">BR<br>DK</span>
+      <span class="name">Bardak Coffee</span>
+    </a>
+    <div class="navlinks">
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#menu">Menü</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#iletisim">İletişim</a>
+    </div>
+    <a class="nav-cta" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Menüyü Gör</a>
+  </div>
+</nav>
+
+<div id="top"></div>
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="kicker">Şırnak · 2022'den beri</div>
+    <h1>Yudum yudum<br>bir mola.</h1>
+    <p class="tagline">"iyi bir bardak, iyi bir mola demektir." Espresso bazlı kahveler, filtre kahve ve daha fazlası — Bardak Coffee'de.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-gold" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">📖 Menüyü İncele</a>
+      <a class="btn btn-outline" href="#iletisim">📍 Bize Ulaşın</a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee-wrap">
+  <div class="marquee mono">
+    <span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span><span>·</span>
+    <span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span><span>·</span>
+    <span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span><span>·</span>
+    <span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span><span>·</span>
+    <span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span><span>·</span>
+    <span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span><span>·</span>
+  </div>
+</div>
+
+<section id="hakkimizda">
+  <div class="wrap about">
+    <div class="imgcol">
+      <img src="https://images.unsplash.com/photo-1753837787691-84a06d715d24?fm=jpg&q=70&w=1000&auto=format&fit=crop" alt="Kahve çekirdekleri">
+    </div>
+    <div>
+      <div class="eyebrow">Biz Kimiz</div>
+      <h2>Muhteşem bir fincan kahvenin yerini hiçbir şey tutmaz.</h2>
+      <p>Dünyanın dört bir yanından gelen leziz kahve çekirdekleriyle demlediğimiz yoğun aromalardan kaymağımsı dokuda lezzetlere kadar birçok seçenekle sizi rahatlatacak bir kahve deneyimi sunuyoruz. Bardak Coffee çatısı altında her müşterimiz için özenle hazırlanmış kahveler, taze pastalar ve bitki çayları var — Şırnak'ın kalbinde, yudum yudum için.</p>
+      <div class="stat-row">
+        <div class="stat"><b>50+</b><span>Menü Çeşidi</span></div>
+        <div class="stat"><b>7/7</b><span>Açık</span></div>
+        <div class="stat"><b>05:00</b><span>İlk Fincan</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="wrap">
+    <div class="eyebrow">Menüde Ne Var?</div>
+    <h2>Her damak zevkine göre<br>bir bardak.</h2>
+    <div class="cat-grid">
+      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
+        <div class="ic">🧊</div><div class="t">Iced Coffees</div>
+      </a>
+      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
+        <div class="ic">🔥</div><div class="t">Sıcak Kahveler</div>
+      </a>
+      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
+        <div class="ic">🌿</div><div class="t">Bitki Çayları</div>
+      </a>
+      <a class="cat-card" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">
+        <div class="ic">🍰</div><div class="t">Pastalar &amp; Kekler</div>
+      </a>
+    </div>
+    <a class="btn btn-gold menu-cta" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Tüm Menüyü Gör →</a>
+  </div>
+</section>
+
+<section id="galeri">
+  <div class="wrap">
+    <div class="eyebrow">Galeri</div>
+    <h2>Bardak Coffee'den kareler.</h2>
+    <div class="gallery-grid">
+      <img class="tall" src="https://images.unsplash.com/photo-1742399505376-8b0202c23971?fm=jpg&q=70&w=900&auto=format&fit=crop" alt="Kahve dükkanı">
+      <img src="https://images.unsplash.com/photo-1544055931-0f1e0a14c892?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Cappuccino">
+      <img src="https://images.unsplash.com/photo-1702925614886-50ad13c88d3f?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Cheesecake">
+      <img src="https://images.unsplash.com/photo-1659882617003-4a0c077e2768?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Latte">
+      <img src="https://images.unsplash.com/photo-1675125530909-15213f01a9e1?fm=jpg&q=70&w=700&auto=format&fit=crop" alt="Kruvasan">
+    </div>
+  </div>
+</section>
+
+<section id="iletisim">
+  <div class="wrap">
+    <div class="eyebrow">İletişim</div>
+    <h2>Bizi ziyaret edin.</h2>
+    <div class="split" style="margin-top:32px">
+      <div class="card">
+        <div class="ic">🕒</div>
+        <h3>Çalışma Saatleri</h3>
+        <div class="hours-row"><span>Pazartesi – Cuma</span><b>05:00 – 21:00</b></div>
+        <div class="hours-row"><span>Cumartesi – Pazar</span><b>07:00 – 22:00</b></div>
+      </div>
+      <div class="card">
+        <div class="ic">📍</div>
+        <h3>Konum &amp; İletişim</h3>
+        <p style="color:var(--muted); font-size:14.5px">Kazım Karabekir Mahallesi, 1001. Sokak, Şırnak</p>
+        <p style="color:var(--muted); font-size:14.5px; margin-top:6px">
+          <a href="mailto:semizsf@gmail.com" style="text-decoration:underline">semizsf@gmail.com</a> ·
+          <a href="https://www.instagram.com/bardakcoffee" target="_blank" rel="noopener" style="text-decoration:underline">@bardakcoffee</a>
+        </p>
+        <div class="map-embed">
+          <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Kaz%C4%B1m+Karabekir+Mahallesi+1001.+Sokak+%C5%9E%C4%B1rnak+Bardak+Coffee&output=embed">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <a class="brand" href="#top">
+        <span class="mark">BR<br>DK</span>
+        <span class="name">Bardak Coffee</span>
+      </a>
+      <p class="desc">Şırnak'ta espresso bazlı kahveler, filtre kahve ve taze lezzetler. "iyi bir bardak, iyi bir mola demektir."</p>
+    </div>
+    <div class="fcol">
+      <h4>Keşfet</h4>
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Menü</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#iletisim">İletişim</a>
+    </div>
+    <div class="fcol">
+      <h4>Bize Ulaşın</h4>
+      <a href="mailto:semizsf@gmail.com">semizsf@gmail.com</a>
+      <a href="https://www.instagram.com/bardakcoffee" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Kaz%C4%B1m+Karabekir+Mahallesi+1001.+Sokak+%C5%9E%C4%B1rnak+Bardak+Coffee" target="_blank" rel="noopener">Konum</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Bardak Coffee</span>
+    <span>Made by Veysi Varlı</span>
+  </div>
+</footer>
+
+</body>
+</html>
