@@ -356,10 +356,78 @@
   /* ---- fal glow ---- */
   .fal-fab{ animation:falglow 2.4s ease-in-out infinite }
   @keyframes falglow{ 0%,100%{ box-shadow:0 10px 26px rgba(18,48,35,.3) } 50%{ box-shadow:0 10px 34px rgba(201,162,39,.55) } }
-  @media (prefers-reduced-motion: reduce){ .fal-fab{ animation:none } }
+  @media (prefers-reduced-motion: reduce){ .fal-fab{ animation:none } }  /* ---- preloader ---- */
+  #preloader{
+    position:fixed; inset:0; z-index:200; background:var(--green-950);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #preloader.hide{ opacity:0; visibility:hidden; pointer-events:none }
+  #preloader .pl-badge{
+    width:64px; height:64px; border-radius:50%; border:1px solid rgba(255,255,255,.18);
+    display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+  }
+  #preloader .pl-badge svg{ width:34px; height:34px; position:relative; z-index:2 }
+  #preloader .pl-fill{
+    position:absolute; left:0; right:0; bottom:0; height:0%; background:var(--gold);
+    transition:height 1.4s cubic-bezier(.4,0,.2,1);
+  }
+  #preloader .pl-label{ color:rgba(255,255,255,.5); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; font-family:'JetBrains Mono',monospace }
+
+  /* ---- custom cursor (desktop) ---- */
+  .cursor-dot{
+    position:fixed; top:0; left:0; width:9px; height:9px; border-radius:50%; background:var(--gold);
+    pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform .12s ease, opacity .3s;
+    mix-blend-mode:difference;
+  }
+  .cursor-ring{
+    position:fixed; top:0; left:0; width:34px; height:34px; border-radius:50%; border:1.4px solid var(--gold);
+    pointer-events:none; z-index:9997; transform:translate(-50%,-50%); transition:transform .28s ease, width .2s,height .2s,opacity .3s;
+    opacity:.7;
+  }
+  .cursor-ring.grow{ width:58px; height:58px; opacity:1 }
+  body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button{ cursor:none }
+
+  /* ---- organic drip dividers ---- */
+  .drip-divider{ display:block; width:100%; line-height:0; position:relative; z-index:1 }
+  .drip-divider svg{ width:100%; height:auto; display:block }
+
+  /* ---- pull quote ---- */
+  .pullquote{ position:relative; padding:90px 0; overflow:hidden; background:var(--cream) }
+  .pullquote .ring{
+    position:absolute; width:520px; height:520px; border-radius:50%; border:22px solid var(--green-800);
+    opacity:.05; top:50%; left:50%; transform:translate(-50%,-50%);
+  }
+  .pullquote blockquote{
+    position:relative; z-index:1; max-width:760px; margin:0 auto; text-align:center;
+    font-family:'Fraunces',serif; font-style:italic; font-weight:500;
+    font-size:clamp(24px,4vw,40px); line-height:1.35; color:var(--green-950);
+  }
+  .pullquote blockquote .qmark{ font-size:1.6em; color:var(--gold); font-style:normal; line-height:0; vertical-align:-.28em }
+  .pullquote cite{ display:block; margin-top:24px; font-style:normal; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
+
+  /* ---- gallery tilt ---- */
+  .gallery-grid a{ perspective:800px }
+  .gallery-grid a img{ transition:transform .25s ease, filter .25s ease; will-change:transform }
+
+  /* ---- section icon (custom line-art, replaces emoji) ---- */
+  .sicon{ width:1em; height:1em; display:inline-block; vertical-align:-.15em; stroke:currentColor; fill:none; stroke-width:1.6 }
+  .tl-num .sicon{ width:20px; height:20px }
 </style>
 </head>
 <body>
+
+<div id="preloader">
+  <div class="pl-badge">
+    <div class="pl-fill" id="plFill"></div>
+    <svg viewBox="0 0 24 24"><path d="M4 9h13a3 3 0 0 1 0 6h-1M4 9v6a5 5 0 0 0 5 5h3a5 5 0 0 0 5-5V9M7 4c.5 1 .5 1.5 0 2.5M11 4c.5 1 .5 1.5 0 2.5M15 4c.5 1 .5 1.5 0 2.5" stroke="#f7f2e4" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+  </div>
+  <div class="pl-label">Demleniyor…</div>
+</div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 
 <nav>
   <div class="inner">
@@ -407,6 +475,10 @@
   </div>
 </header>
 
+<div class="drip-divider">
+  <svg viewBox="0 0 1200 44" preserveAspectRatio="none"><path fill="#0c1f17" d="M0,0 H1200 V18 C1100,18 1060,42 1000,42 C940,42 920,14 860,14 C800,14 780,38 720,38 C660,38 640,10 580,10 C520,10 500,34 440,34 C380,34 360,6 300,6 C240,6 220,30 160,30 C100,30 80,2 20,2 C10,2 5,4 0,6 Z"/></svg>
+</div>
+
 <div class="marquee-wrap">
   <div class="marquee mono">
     <span class="star">★</span><span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span>
@@ -442,23 +514,23 @@
       <div class="timeline" id="timeline">
         <div class="tl-line"><div class="tl-line-fill" id="tlFill"></div></div>
         <div class="tl-step reveal-step">
-          <div class="tl-num">🌱</div>
+          <div class="tl-num"><svg class="sicon" viewBox="0 0 24 24"><path d="M12 21c0-6 2-9 7-11-1 6-3 9-7 11z"/><path d="M12 21c0-6-2-9-7-11 1 6 3 9 7 11z"/><path d="M12 21V9"/></svg></div>
           <div class="tl-body"><h4>Çekirdek</h4><p>Dünyanın seçkin bölgelerinden gelen, özenle seçilmiş yeşil kahve çekirdekleri.</p></div>
         </div>
         <div class="tl-step reveal-step">
-          <div class="tl-num">🔥</div>
+          <div class="tl-num"><svg class="sicon" viewBox="0 0 24 24"><path d="M12 3c1 3-2 4-2 7a3 3 0 0 0 6 0c1 1 1.5 2.5 1.5 4A5.5 5.5 0 0 1 12 20a5.5 5.5 0 0 1-5.5-5.5C6.5 10 9 8 9 5c1 .5 1.5 1.5 1.5 2.5"/></svg></div>
           <div class="tl-body"><h4>Kavurma</h4><p>Aromayı ortaya çıkaran, ustalık isteyen bir kavurma süreci.</p></div>
         </div>
         <div class="tl-step reveal-step">
-          <div class="tl-num">⚙️</div>
+          <div class="tl-num"><svg class="sicon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M4.6 7.3l2.1 1.3M17.3 15.4l2.1 1.3M3 12h2.5M18.5 12H21M4.6 16.7l2.1-1.3M17.3 8.6l2.1-1.3"/></svg></div>
           <div class="tl-body"><h4>Öğütme</h4><p>Her demleme yöntemine göre taze taze, doğru incelikte öğütülür.</p></div>
         </div>
         <div class="tl-step reveal-step">
-          <div class="tl-num">💧</div>
+          <div class="tl-num"><svg class="sicon" viewBox="0 0 24 24"><path d="M12 3c3 4 6 8 6 11.5A6 6 0 0 1 6 14.5C6 11 9 7 12 3z"/></svg></div>
           <div class="tl-body"><h4>Demleme</h4><p>Espresso, filtre ya da elde demleme — her biri kendi tekniğiyle.</p></div>
         </div>
         <div class="tl-step reveal-step">
-          <div class="tl-num">☕</div>
+          <div class="tl-num"><svg class="sicon" viewBox="0 0 24 24"><path d="M4 9h13a3 3 0 0 1 0 6h-1M4 9v6a5 5 0 0 0 5 5h3a5 5 0 0 0 5-5V9"/><path d="M7 4c.5 1 .5 1.5 0 2.5M11 4c.5 1 .5 1.5 0 2.5"/></svg></div>
           <div class="tl-body"><h4>Fincanda</h4><p>Ve işte karşınızda: Bardak Coffee imzalı bir bardak.</p></div>
         </div>
       </div>
@@ -502,15 +574,18 @@
     </div>
     <a class="btn btn-dark menu-cta" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Tüm Menüyü Gör →</a>
   </div>
+  <div class="drip-divider" style="margin-top:70px">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none"><path fill="#f7f2e4" d="M0,40 H1200 V10 C1140,10 1120,36 1060,36 C1000,36 980,8 920,8 C860,8 840,34 780,34 C720,34 700,6 640,6 C580,6 560,32 500,32 C440,32 420,4 360,4 C300,4 280,30 220,30 C160,30 140,2 80,2 C50,2 25,6 0,12 Z"/></svg>
+  </div>
 </section>
 
 <section id="eslesme">
   <div class="wrap" style="text-align:center">
     <div class="eyebrow reveal" style="justify-content:center"><span style="display:none"></span>Sana Ne Uyar?</div>
-    <h2 class="reveal">4 soru, damak zevkine<br>özel bir bardak.</h2>
+    <h2 class="reveal">5 soru, damak zevkine<br>özel bir bardak.</h2>
     <div class="quiz-card reveal" id="quizCard">
       <div class="quiz-progress">
-        <span id="qp1"></span><span id="qp2"></span><span id="qp3"></span><span id="qp4"></span>
+        <span id="qp1"></span><span id="qp2"></span><span id="qp3"></span><span id="qp4"></span><span id="qp5"></span>
       </div>
 
       <div class="quiz-step" data-step="1">
@@ -548,11 +623,22 @@
         </div>
       </div>
 
+      <div class="quiz-step" data-step="5" style="display:none">
+        <div class="quiz-q">Klasik mi, sıra dışı mı?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" data-q="5" data-v="klasik">🎯 Klasik, güvenli olsun</button>
+          <button class="quiz-opt" data-q="5" data-v="macera">✨ Sürpriz olsun</button>
+        </div>
+      </div>
+
       <div class="quiz-result" id="quizResult">
         <div style="font-size:34px">☕</div>
         <div class="rname" id="qrName"></div>
         <div class="rcat" id="qrCat"></div>
         <div class="rprice" id="qrPrice"></div>
+        <div id="qrPair" style="margin-top:14px; font-size:13px; color:var(--muted); display:none">
+          Yanında iyi gider: <b id="qrPairName" style="color:var(--green-800)"></b>
+        </div>
         <a class="btn btn-dark" style="margin-top:20px" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Menüde Bul</a>
         <div><button class="quiz-restart" id="quizRestart">Baştan başla</button></div>
       </div>
@@ -585,6 +671,16 @@
     </div>
   </div>
 </section>
+
+<div class="pullquote">
+  <div class="ring"></div>
+  <div class="wrap">
+    <blockquote class="reveal">
+      <span class="qmark">"</span>iyi bir bardak, iyi bir mola demektir<span class="qmark">"</span>
+      <cite>— Bardak Coffee</cite>
+    </blockquote>
+  </div>
+</div>
 
 <section id="galeri">
   <div class="wrap">
@@ -900,70 +996,121 @@
     steps.forEach(s => tio.observe(s));
   })();
 
-  // ---- menu matcher quiz: gerçek menüden etiketli havuz + puanlama ----
+  // ---- menu matcher quiz: gerçek menüden geniş etiketli havuz + puanlama ----
   (function(){
     const card = document.getElementById('quizCard');
     if (!card) return;
     const answers = {};
 
     // Gerçek menüden geniş bir havuz. tatli/sade ve sicak/soguk KESİN filtre;
-    // amac (enerji/rahat/ferah) ve damak (kahve/cikolata/meyve/bitki) puanlamayla en yakını seçer.
+    // amac, damak ve macera puanlamayla en yakın eşleşmeyi seçer.
     const POOL = [
-      { name:"Cold Brew", cat:"Iced Coffees", price:"150₺", tatli:"sade", sicaklik:"soguk", amac:["enerji"], damak:["kahve"] },
-      { name:"Iced Filter Coffee", cat:"Iced Coffees", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["rahat"], damak:["kahve"] },
-      { name:"Iced Americano", cat:"Iced Coffees", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["enerji","ferah"], damak:["kahve"] },
-      { name:"Iced Cortado", cat:"Iced Coffees", price:"130₺", tatli:"sade", sicaklik:"soguk", amac:["rahat"], damak:["kahve"] },
-      { name:"Iced Caramel Macchiato", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["enerji"], damak:["cikolata"] },
-      { name:"Iced Salted Caramel Latte", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"] },
-      { name:"Iced White Chocolate Mocha", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"] },
-      { name:"Iced Lotus", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"] },
-      { name:"Cool Lime", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
-      { name:"Limonata", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
-      { name:"Lemon Hibiscus", cat:"Non-Coffee", price:"155₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
-      { name:"Mango Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
-      { name:"Çilek Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"] },
-      { name:"Matcha Latte", cat:"Non-Coffee", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["bitki"] },
-      { name:"Sade Kombucha", cat:"Kombucha", price:"160₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["bitki"] },
-      { name:"Yasemin Kombucha", cat:"Kombucha", price:"160₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["bitki"] },
-      { name:"Espresso (Double)", cat:"Sıcak Kahveler", price:"100₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"] },
-      { name:"Türk Kahvesi", cat:"Sıcak Kahveler", price:"90₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"] },
-      { name:"Filtre Kahve", cat:"Sıcak Kahveler", price:"130₺ / 135₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"] },
-      { name:"Özel Demleme (Chemex / V60)", cat:"Sıcak Kahveler", price:"180₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"] },
-      { name:"Flat White", cat:"Sıcak Kahveler", price:"140₺ / 150₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"] },
-      { name:"Caramel Macchiato", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["enerji"], damak:["cikolata"] },
-      { name:"Salted Caramel Latte", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
-      { name:"Caffe Mocha", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
-      { name:"Lotus", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
-      { name:"Sıcak Çikolata", cat:"Non-Coffee", price:"130₺ / 140₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"] },
-      { name:"Chai Tea Latte", cat:"Non-Coffee", price:"130₺ / 140₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
-      { name:"Mavi Çiçekli Earl Grey", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
-      { name:"Ihlamur Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
-      { name:"Melisa Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"] },
-      { name:"Yeşil Çay", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["ferah"], damak:["bitki"] },
-      { name:"Tropikal Çay", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["ferah"], damak:["meyve"] },
-      { name:"Kış Çayı", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["meyve"] },
-      { name:"Guarena", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["bitki"] },
+      // Iced Coffees
+      { name:"Cold Brew", cat:"Iced Coffees", price:"150₺", tatli:"sade", sicaklik:"soguk", amac:["enerji"], damak:["kahve"], macera:"klasik" },
+      { name:"Iced Filter Coffee", cat:"Iced Coffees", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["rahat"], damak:["kahve"], macera:"klasik" },
+      { name:"Iced Americano", cat:"Iced Coffees", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["enerji","ferah"], damak:["kahve"], macera:"klasik" },
+      { name:"Iced Cortado", cat:"Iced Coffees", price:"130₺", tatli:"sade", sicaklik:"soguk", amac:["rahat"], damak:["kahve"], macera:"klasik" },
+      { name:"Iced Flat White", cat:"Iced Coffees", price:"150₺", tatli:"sade", sicaklik:"soguk", amac:["enerji"], damak:["kahve"], macera:"klasik" },
+      { name:"Iced Red Eye", cat:"Iced Coffees", price:"160₺", tatli:"sade", sicaklik:"soguk", amac:["enerji"], damak:["kahve"], macera:"macera" },
+      { name:"Iced Black Eye", cat:"Iced Coffees", price:"170₺", tatli:"sade", sicaklik:"soguk", amac:["enerji"], damak:["kahve"], macera:"macera" },
+      { name:"Iced Caramel Macchiato", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["enerji"], damak:["cikolata"], macera:"klasik" },
+      { name:"Iced Salted Caramel Latte", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"], macera:"macera" },
+      { name:"Iced White Chocolate Mocha", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"], macera:"klasik" },
+      { name:"Iced Lotus", cat:"Iced Coffees", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"], macera:"macera" },
+      // Non-Coffee soğuk
+      { name:"Cool Lime", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Limonata", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Lemon Hibiscus", cat:"Non-Coffee", price:"155₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"macera" },
+      { name:"Kuzu Kulağı", cat:"Non-Coffee", price:"140₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"macera" },
+      { name:"Pitaya", cat:"Non-Coffee", price:"140₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"macera" },
+      { name:"Mango Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Çilek Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Karpuz Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Ananas Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Mango-Ananas Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"macera" },
+      { name:"Orman Meyveli Frozen", cat:"Non-Coffee", price:"135₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"macera" },
+      { name:"Çilekli Süt", cat:"Non-Coffee", price:"90₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["meyve"], macera:"klasik" },
+      { name:"Ballı Süt", cat:"Non-Coffee", price:"90₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["bitki"], macera:"macera" },
+      { name:"Milkshake Çikolatalı", cat:"Non-Coffee", price:"145₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"], macera:"klasik" },
+      { name:"Milkshake Çilekli", cat:"Non-Coffee", price:"145₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["meyve"], macera:"klasik" },
+      { name:"Iced Chocolate", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["cikolata"], macera:"klasik" },
+      { name:"Matcha Latte", cat:"Non-Coffee", price:"155₺", tatli:"tatli", sicaklik:"soguk", amac:["rahat"], damak:["bitki"], macera:"macera" },
+      { name:"Nar Suyu", cat:"Non-Coffee", price:"130₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"macera" },
+      { name:"Portakal Suyu", cat:"Non-Coffee", price:"130₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      // Kombucha
+      { name:"Sade Kombucha", cat:"Kombucha", price:"160₺", tatli:"sade", sicaklik:"soguk", amac:["ferah"], damak:["bitki"], macera:"macera" },
+      { name:"Yasemin Kombucha", cat:"Kombucha", price:"160₺", tatli:"tatli", sicaklik:"soguk", amac:["ferah"], damak:["bitki"], macera:"macera" },
+      // Sıcak Kahveler
+      { name:"Espresso (Double)", cat:"Sıcak Kahveler", price:"100₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"], macera:"klasik" },
+      { name:"Türk Kahvesi", cat:"Sıcak Kahveler", price:"90₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"], macera:"klasik" },
+      { name:"Americano", cat:"Sıcak Kahveler", price:"130₺ / 135₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"], macera:"klasik" },
+      { name:"Filtre Kahve", cat:"Sıcak Kahveler", price:"130₺ / 135₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"], macera:"klasik" },
+      { name:"Özel Demleme (Chemex / V60)", cat:"Sıcak Kahveler", price:"180₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"], macera:"macera" },
+      { name:"Flat White", cat:"Sıcak Kahveler", price:"140₺ / 150₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"], macera:"klasik" },
+      { name:"Cappuccino", cat:"Sıcak Kahveler", price:"135₺ / 140₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"], macera:"klasik" },
+      { name:"Latte", cat:"Sıcak Kahveler", price:"135₺ / 140₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["kahve"], macera:"klasik" },
+      { name:"Red Eye", cat:"Sıcak Kahveler", price:"150₺ / 160₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"], macera:"macera" },
+      { name:"Black Eye", cat:"Sıcak Kahveler", price:"170₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["kahve"], macera:"macera" },
+      { name:"Caramel Macchiato", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["enerji"], damak:["cikolata"], macera:"klasik" },
+      { name:"Salted Caramel Latte", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"], macera:"macera" },
+      { name:"Caffe Mocha", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"], macera:"klasik" },
+      { name:"White Chocolate Mocha", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"], macera:"macera" },
+      { name:"Lotus", cat:"Sıcak Kahveler", price:"145₺ / 155₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"], macera:"macera" },
+      // Non-Coffee sıcak
+      { name:"Sıcak Çikolata", cat:"Non-Coffee", price:"130₺ / 140₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["cikolata"], macera:"klasik" },
+      { name:"Chai Tea Latte", cat:"Non-Coffee", price:"130₺ / 140₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"macera" },
+      // Bitki Çayları
+      { name:"Mavi Çiçekli Earl Grey", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"macera" },
+      { name:"Ihlamur Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"klasik" },
+      { name:"Melisa Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"macera" },
+      { name:"Papatya Çayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"klasik" },
+      { name:"Adaçayı", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"klasik" },
+      { name:"Kuşburnu", cat:"Bitki Çayları", price:"110₺", tatli:"sade", sicaklik:"sicak", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Yeşil Çay", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["ferah"], damak:["bitki"], macera:"klasik" },
+      { name:"Rooibos", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["bitki"], macera:"macera" },
+      { name:"Oolong", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["ferah"], damak:["bitki"], macera:"macera" },
+      { name:"Elma-Tarçın Çayı", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["meyve"], macera:"macera" },
+      { name:"Tropikal Çay", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["ferah"], damak:["meyve"], macera:"klasik" },
+      { name:"Kış Çayı", cat:"Bitki Çayları", price:"120₺", tatli:"tatli", sicaklik:"sicak", amac:["rahat"], damak:["meyve"], macera:"macera" },
+      { name:"Lord Grey", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["bitki"], macera:"macera" },
+      { name:"Lady Grey", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["rahat"], damak:["meyve"], macera:"macera" },
+      { name:"Guarena", cat:"Bitki Çayları", price:"120₺", tatli:"sade", sicaklik:"sicak", amac:["enerji"], damak:["bitki"], macera:"macera" },
+    ];
+
+    // Eşlik eden tatlı önerisi (havuzdan bağımsız, ayrı bir mini havuz)
+    const PAIRS = [
+      { name:"Cheesecake San Sebastian", tatli:"tatli" }, { name:"Blueberry Cheesecake", tatli:"tatli" },
+      { name:"Çikolatalı Kruvasan", tatli:"tatli" }, { name:"Sade Kruvasan", tatli:"sade" },
+      { name:"Cookie (Glutensiz)", tatli:"sade" }, { name:"Donut (Biscoff)", tatli:"tatli" },
+      { name:"Spoonful", tatli:"tatli" }, { name:"Lava Cheesecake", tatli:"tatli" },
     ];
 
     function findMatch(a){
-      // 1) kesin filtre: tatli/sade + sicak/soguk
+      // 1) kesin filtre: tatli/sade + sicak/soguk (sıcaklık her zaman korunur)
       let candidates = POOL.filter(p => p.tatli === a[1] && p.sicaklik === a[2]);
-      if (!candidates.length) candidates = POOL.filter(p => p.sicaklik === a[2]); // sıcaklık her zaman korunur
+      if (!candidates.length) candidates = POOL.filter(p => p.sicaklik === a[2]);
       if (!candidates.length) candidates = POOL.slice();
 
-      // 2) puanlama: amac ve damak eşleşmesine göre
+      // 2) puanlama: amac + damak + macera eşleşmesine göre
       let scored = candidates.map(p => {
         let score = 0;
-        if (p.amac.includes(a[3])) score += 2;
-        if (p.damak.includes(a[4])) score += 3;
+        if (p.amac.includes(a[3])) score += 3;
+        if (p.damak.includes(a[4])) score += 4;
+        if (p.macera === a[5]) score += 1;
         return { ...p, score };
       });
       scored.sort((x,y) => y.score - x.score);
       const top = scored.filter(s => s.score === scored[0].score);
-      return top[Math.floor(Math.random() * top.length)];
+      const drink = top[Math.floor(Math.random() * top.length)];
+
+      const pairCands = PAIRS.filter(p => p.tatli === a[1]);
+      const pairPool = pairCands.length ? pairCands : PAIRS;
+      const pair = pairPool[Math.floor(Math.random() * pairPool.length)];
+
+      return { drink, pair };
     }
 
-    const dots = [document.getElementById('qp1'), document.getElementById('qp2'), document.getElementById('qp3'), document.getElementById('qp4')];
+    const dots = [document.getElementById('qp1'), document.getElementById('qp2'), document.getElementById('qp3'), document.getElementById('qp4'), document.getElementById('qp5')];
 
     card.querySelectorAll('.quiz-opt').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -972,13 +1119,16 @@
         dots[q-1].classList.add('done');
         const cur = card.querySelector(`.quiz-step[data-step="${q}"]`);
         cur.style.display = 'none';
-        if (q < 4){
+        if (q < 5){
           card.querySelector(`.quiz-step[data-step="${Number(q)+1}"]`).style.display = 'block';
         } else {
-          const r = findMatch(answers);
-          document.getElementById('qrName').textContent = r.name;
-          document.getElementById('qrCat').textContent = r.cat;
-          document.getElementById('qrPrice').textContent = r.price;
+          const { drink, pair } = findMatch(answers);
+          document.getElementById('qrName').textContent = drink.name;
+          document.getElementById('qrCat').textContent = drink.cat;
+          document.getElementById('qrPrice').textContent = drink.price;
+          const pairEl = document.getElementById('qrPair');
+          document.getElementById('qrPairName').textContent = pair.name;
+          pairEl.style.display = 'block';
           document.getElementById('quizResult').classList.add('show');
         }
       });
@@ -989,6 +1139,57 @@
       document.getElementById('quizResult').classList.remove('show');
       card.querySelectorAll('.quiz-step').forEach(s => s.style.display = 'none');
       card.querySelector('.quiz-step[data-step="1"]').style.display = 'block';
+    });
+  })();
+  // ---- preloader ----
+  (function(){
+    const pl = document.getElementById('preloader');
+    const fill = document.getElementById('plFill');
+    if (!pl) return;
+    requestAnimationFrame(() => { fill.style.height = '100%'; });
+    window.addEventListener('load', () => {
+      setTimeout(() => { pl.classList.add('hide'); }, 750);
+    });
+    // güvenlik: her ihtimale karşı en geç 2.2sn sonra kaldır
+    setTimeout(() => pl.classList.add('hide'), 2200);
+  })();
+
+  // ---- custom cursor (masaüstü) ----
+  (function(){
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.body.classList.add('has-custom-cursor');
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, x = 0, y = 0;
+    window.addEventListener('mousemove', (e) => {
+      x = e.clientX; y = e.clientY;
+      dot.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`;
+    });
+    (function loop(){
+      rx += (x - rx) * 0.18; ry += (y - ry) * 0.18;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button, .quiz-opt, .gallery-grid img').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('grow'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('grow'));
+    });
+  })();
+
+  // ---- gallery 3D tilt ----
+  (function(){
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll('.gallery-grid a').forEach(a => {
+      const img = a.querySelector('img');
+      if (!img) return;
+      a.addEventListener('mousemove', (e) => {
+        const r = a.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        img.style.transform = `scale(1.06) rotateX(${py * -8}deg) rotateY(${px * 8}deg)`;
+      });
+      a.addEventListener('mouseleave', () => { img.style.transform = ''; });
     });
   })();
 </script>
