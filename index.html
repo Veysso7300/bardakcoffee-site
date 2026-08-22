@@ -13,7 +13,7 @@
   :root{
     --green-950:#0c1f17; --green-900:#0f2a20; --green-800:#123023; --green-700:#1c4632; --green-600:#2f6b52;
     --cream:#f7f2e4; --paper:#efe7d1; --ink:#18140f; --muted:#6b6252;
-    --gold:#c9a227; --rule:rgba(24,20,15,.13);
+    --gold:#c9a227; --rust:#b5502e; --rule:rgba(24,20,15,.13);
   }
   *{box-sizing:border-box; margin:0; padding:0}
   html{ scroll-behavior:smooth }
@@ -57,26 +57,33 @@
   }
   @media (min-width:800px){ .navlinks{ display:flex } }
 
-  /* ---- hero: asymmetric editorial ---- */
-  .hero{ position:relative; padding:56px 0 0; overflow:hidden }
-  .hero-grid{ display:grid; gap:0; align-items:stretch }
-  .hero-copy{ padding:40px 0 60px; position:relative; z-index:2 }
-  .hero-copy .rating-chip{
-    display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--rule);
-    border-radius:999px; padding:7px 14px 7px 7px; margin-bottom:26px; box-shadow:0 6px 16px rgba(24,20,15,.06);
+  /* ---- hero: bold editorial, breaking the grid ---- */
+  .hero{ position:relative; padding:36px 0 0; overflow:visible }
+  .hero-grid{ display:grid; gap:0; align-items:center; position:relative }
+  .hero-copy{ padding:20px 0 50px; position:relative; z-index:3 }
+  .hero-copy .rating-stamp{
+    position:absolute; top:-4px; right:14px; z-index:5;
+    width:92px; height:92px; border-radius:50%; background:var(--rust); color:#fff;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transform:rotate(-9deg); box-shadow:0 14px 30px rgba(181,80,46,.35);
+    border:2px dashed rgba(255,255,255,.55); text-align:center;
   }
-  .rating-chip .stars{ color:var(--gold); font-size:12px; letter-spacing:1px }
-  .rating-chip b{ font-size:12.5px }
-  .rating-chip span{ font-size:11.5px; color:var(--muted) }
+  .rating-stamp b{ font-family:'Fraunces',serif; font-size:20px; line-height:1 }
+  .rating-stamp span{ font-size:8.5px; letter-spacing:.08em; text-transform:uppercase; margin-top:3px; line-height:1.2 }
+  .rating-stamp .st{ color:#ffe9b0; font-size:9px; letter-spacing:1px }
+
   .hero h1{
-    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(44px,7.4vw,78px); line-height:.98; letter-spacing:-2px;
-    color:var(--green-950);
+    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(46px,10vw,108px); line-height:.92; letter-spacing:-3px;
+    color:var(--green-950); max-width:11ch;
   }
-  .hero h1 em{ font-style:italic; font-weight:500; color:var(--green-700) }
+  .hero h1 .line2{
+    display:block; font-style:italic; font-weight:500; color:transparent;
+    -webkit-text-stroke:1.5px var(--rust); font-size:.85em; margin-top:2px;
+  }
   .hero .tagline{
-    font-size:16px; color:var(--muted); margin-top:22px; max-width:420px; line-height:1.7;
+    font-size:16px; color:var(--muted); margin-top:26px; max-width:400px; line-height:1.7;
   }
-  .hero-ctas{ display:flex; gap:12px; margin-top:34px; flex-wrap:wrap }
+  .hero-ctas{ display:flex; gap:12px; margin-top:32px; flex-wrap:wrap }
   .btn{
     display:inline-flex; align-items:center; gap:8px; padding:15px 26px; border-radius:12px;
     font-weight:700; font-size:14px; text-decoration:none; cursor:pointer; border:none; letter-spacing:.01em;
@@ -84,23 +91,31 @@
   .btn-dark{ background:var(--green-800); color:#fff }
   .btn-line{ background:transparent; color:var(--green-950); border:1.5px solid var(--green-950) }
 
+  .hero-statline{
+    display:flex; gap:22px; flex-wrap:wrap; margin-top:38px; padding-top:22px; border-top:1px solid var(--rule);
+  }
+  .hero-statline div{ font-size:11.5px; color:var(--muted) }
+  .hero-statline b{ display:block; font-family:'Fraunces',serif; font-size:20px; color:var(--green-800); letter-spacing:-.5px }
+
   .hero-photo{
-    position:relative; min-height:360px;
+    position:relative; min-height:300px; margin:0 6px 30px;
     background-size:cover; background-position:center;
-    border-radius:0 0 0 34px;
+    border-radius:63% 37% 54% 46% / 43% 47% 53% 57%;
   }
   .hero-photo::after{
-    content:""; position:absolute; inset:0;
+    content:""; position:absolute; inset:0; border-radius:inherit;
     background:linear-gradient(180deg, rgba(12,31,23,0) 40%, rgba(12,31,23,.5) 100%);
   }
   .hero-photo .tag{
-    position:absolute; left:20px; bottom:20px; z-index:2; color:#fff;
+    position:absolute; left:30px; bottom:26px; z-index:2; color:#fff;
     font-family:'Fraunces',serif; font-style:italic; font-size:14px;
   }
   @media (min-width:900px){
-    .hero-grid{ grid-template-columns:1fr 1fr }
-    .hero-copy{ padding:70px 60px 90px 0 }
-    .hero-photo{ border-radius:0 0 0 60px; min-height:640px }
+    .hero-grid{ grid-template-columns:1.15fr 1fr }
+    .hero-copy{ padding:60px 20px 90px 0 }
+    .hero-photo{ min-height:560px; margin:0 -40px 0 20px }
+    .rating-stamp{ width:112px; height:112px; right:-30px; top:20px }
+    .rating-stamp b{ font-size:24px }
   }
 
   /* ---- marquee ---- */
@@ -112,11 +127,8 @@
   @media (prefers-reduced-motion: reduce){ .marquee{ animation-duration:90s } }
 
   /* ---- stats strip ---- */
-  .stats-strip{ background:var(--paper); border-bottom:1px solid var(--rule) }
-  .stats-strip .wrap{ display:grid; grid-template-columns:repeat(2,1fr); gap:26px; padding:44px 22px }
   .stat b{ font-family:'Fraunces',serif; font-size:34px; color:var(--green-800); display:block; letter-spacing:-1px }
   .stat span{ font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em }
-  @media (min-width:700px){ .stats-strip .wrap{ grid-template-columns:repeat(4,1fr) } }
 
   /* ---- about editorial ---- */
   .about{ display:grid; gap:50px; align-items:center }
@@ -145,17 +157,25 @@
   .highlights .eyebrow::before{ background:var(--gold) }
   .highlights h2{ color:#fff }
   .hl-head{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px }
-  .hl-grid{ display:grid; grid-template-columns:1fr; gap:12px; margin-top:40px }
-  .hl-card{
-    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.13); border-radius:16px;
-    padding:20px; display:flex; justify-content:space-between; align-items:center; gap:14px;
-    transition:.15s;
+  .hl-list{ margin-top:44px; border-top:1px solid rgba(255,255,255,.15) }
+  .hl-row{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:baseline; gap:6px 16px;
+    padding:22px 0; border-bottom:1px solid rgba(255,255,255,.15); position:relative;
+    transition:.2s;
   }
-  .hl-card:hover{ background:rgba(255,255,255,.09); transform:translateX(4px) }
-  .hl-card .name{ font-family:'Fraunces',serif; font-weight:600; font-size:16.5px }
-  .hl-card .cat{ font-size:11px; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.1em; margin-top:4px }
-  .hl-card .price{ font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--gold); font-size:15px; white-space:nowrap }
-  @media (min-width:760px){ .hl-grid{ grid-template-columns:1fr 1fr } }
+  .hl-row:hover{ padding-left:10px }
+  .hl-row:hover .hl-name{ color:var(--gold) }
+  .hl-idx{
+    grid-row:1 / 3; font-family:'Fraunces',serif; font-size:38px; font-weight:700;
+    color:rgba(255,255,255,.16); align-self:center; width:52px;
+  }
+  .hl-name{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; transition:.2s }
+  .hl-cat{ grid-column:2; font-size:11px; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.1em }
+  .hl-price{ grid-row:1/3; align-self:center; font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--gold); font-size:16px; white-space:nowrap }
+  @media (min-width:600px){
+    .hl-row{ grid-template-columns:60px 1fr auto; padding:26px 0 }
+    .hl-idx{ font-size:44px }
+  }
   .menu-cta{ margin-top:36px }
 
   /* ---- testimonials ---- */
@@ -302,7 +322,7 @@
   html[data-theme="dark"] nav{ background:rgba(20,32,26,.85) }
   html[data-theme="dark"] .card, html[data-theme="dark"] .testi-card{ background:#1a261f }
   html[data-theme="dark"] .cup-progress-wrap{ background:#1a261f }
-  html[data-theme="dark"] .rating-chip{ background:#1a261f; color:var(--ink) }
+  html[data-theme="dark"] .rating-stamp{ box-shadow:0 14px 30px rgba(0,0,0,.5) }
   html[data-theme="dark"] .btn-line{ color:#fff; border-color:rgba(255,255,255,.5) }
   html[data-theme="dark"] .fal-modal{ background:#1a261f }
   .theme-toggle{
@@ -453,19 +473,24 @@
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-copy reveal">
+        <div class="rating-stamp">
+          <span class="st">★★★★★</span>
+          <b>5.0</b>
+          <span>245 yorum</span>
+        </div>
         <div class="greeting" id="greeting">Merhaba</div>
         <div class="status-badge" id="statusBadge"><span class="dot"></span><span id="statusText">Kontrol ediliyor…</span></div>
-        <div class="rating-chip">
-          <span class="stars">★★★★★</span>
-          <b>5.0</b>
-          <span>· 245 değerlendirme</span>
-        </div>
-        <h1>Yudum yudum<br><em>bir mola.</em></h1>
+        <h1>Yudum yudum<span class="line2">bir mola.</span></h1>
         <p class="tagline">"iyi bir bardak, iyi bir mola demektir." İdil'in kalbinde; espresso bazlı kahveler, filtre kahve ve taze lezzetlerle dolu bir durak.</p>
         <div class="hero-ctas">
           <a class="btn btn-dark" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">📖 Menüyü İncele</a>
           <a class="btn btn-line" href="#iletisim">📍 Yol Tarifi</a>
           <button class="btn btn-line" id="heroFalBtn" style="cursor:pointer">☕ Falına Bak</button>
+        </div>
+        <div class="hero-statline">
+          <div><b data-count data-target="50" data-suffix="+">0</b>Menü Çeşidi</div>
+          <div><b data-count data-target="245" data-suffix="+">0</b>Değerlendirme</div>
+          <div><b>07:00</b>Hafta Sonu Açılış</div>
         </div>
       </div>
       <div class="hero-photo" style="background-image:url('https://lh3.googleusercontent.com/place-photos/AG9NLjBQiTreyvJy8O1YT2Hzu0A0dxc2mgBlZlfHu7XXpOR8OeLMj8jbJfKWsdUjYq4rDutyL5_aGgRX2qJG7sXOb-XPRD1OTVcPb6YgzdWauca9ol-VW78Q48WtJ1rjwGkRLSPONoxcCWokJGHGGA=s4800-w1600-h1600')">
@@ -487,15 +512,6 @@
     <span class="star">★</span><span>ESPRESSO BAZLI KAHVELER</span><span>·</span><span>FİLTRE KAHVE</span>
     <span class="star">★</span><span>ICED COFFEES</span><span>·</span><span>BİTKİ ÇAYLARI</span>
     <span class="star">★</span><span>TAZE PASTA &amp; KRUVASAN</span><span>·</span><span>KOMBUCHA</span>
-  </div>
-</div>
-
-<div class="stats-strip">
-  <div class="wrap">
-    <div class="stat reveal"><b data-count data-target="5.0" data-suffix=" ★">0 ★</b><span>Google Puanı</span></div>
-    <div class="stat reveal"><b data-count data-target="245" data-suffix="+">0</b><span>Değerlendirme</span></div>
-    <div class="stat reveal"><b data-count data-target="50" data-suffix="+">0</b><span>Menü Çeşidi</span></div>
-    <div class="stat reveal"><b>07:00</b><span>Hafta Sonu Açılış</span></div>
   </div>
 </div>
 
@@ -546,30 +562,42 @@
         <h2>Öne çıkan<br>birkaç bardak.</h2>
       </div>
     </div>
-    <div class="hl-grid">
-      <div class="hl-card reveal">
-        <div><div class="name">Cold Brew</div><div class="cat">Iced Coffees</div></div>
-        <div class="price">150₺</div>
+    <div class="hl-list">
+      <div class="hl-row reveal">
+        <span class="hl-idx">01</span>
+        <span class="hl-name">Cold Brew</span>
+        <span class="hl-cat">Iced Coffees</span>
+        <span class="hl-price">150₺</span>
       </div>
-      <div class="hl-card reveal">
-        <div><div class="name">Cheesecake San Sebastian</div><div class="cat">Pastalar &amp; Kekler</div></div>
-        <div class="price">190₺</div>
+      <div class="hl-row reveal">
+        <span class="hl-idx">02</span>
+        <span class="hl-name">Cheesecake San Sebastian</span>
+        <span class="hl-cat">Pastalar &amp; Kekler</span>
+        <span class="hl-price">190₺</span>
       </div>
-      <div class="hl-card reveal">
-        <div><div class="name">Özel Demleme</div><div class="cat">Chemex / V60</div></div>
-        <div class="price">180₺</div>
+      <div class="hl-row reveal">
+        <span class="hl-idx">03</span>
+        <span class="hl-name">Özel Demleme</span>
+        <span class="hl-cat">Chemex / V60</span>
+        <span class="hl-price">180₺</span>
       </div>
-      <div class="hl-card reveal">
-        <div><div class="name">Salted Caramel Latte</div><div class="cat">Sıcak Kahveler</div></div>
-        <div class="price">145₺ / 155₺</div>
+      <div class="hl-row reveal">
+        <span class="hl-idx">04</span>
+        <span class="hl-name">Salted Caramel Latte</span>
+        <span class="hl-cat">Sıcak Kahveler</span>
+        <span class="hl-price">145₺ / 155₺</span>
       </div>
-      <div class="hl-card reveal">
-        <div><div class="name">Türk Kahvesi</div><div class="cat">Sıcak Kahveler</div></div>
-        <div class="price">90₺</div>
+      <div class="hl-row reveal">
+        <span class="hl-idx">05</span>
+        <span class="hl-name">Türk Kahvesi</span>
+        <span class="hl-cat">Sıcak Kahveler</span>
+        <span class="hl-price">90₺</span>
       </div>
-      <div class="hl-card reveal">
-        <div><div class="name">Mavi Çiçekli Earl Grey</div><div class="cat">Bitki Çayları</div></div>
-        <div class="price">120₺</div>
+      <div class="hl-row reveal">
+        <span class="hl-idx">06</span>
+        <span class="hl-name">Mavi Çiçekli Earl Grey</span>
+        <span class="hl-cat">Bitki Çayları</span>
+        <span class="hl-price">120₺</span>
       </div>
     </div>
     <a class="btn btn-dark menu-cta" href="https://brdkmenu.netlify.app/menu.html" target="_blank" rel="noopener">Tüm Menüyü Gör →</a>
