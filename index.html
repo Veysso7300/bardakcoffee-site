@@ -490,7 +490,7 @@
         <div class="hero-statline">
           <div><b data-count data-target="50" data-suffix="+">0</b>Menü Çeşidi</div>
           <div><b data-count data-target="245" data-suffix="+">0</b>Değerlendirme</div>
-          <div><b>07:00</b>Hafta Sonu Açılış</div>
+          <div><b>09:00</b>Açılış</div>
         </div>
       </div>
       <div class="hero-photo" style="background-image:url('/uploads/hero-night.jpg')">
@@ -741,8 +741,7 @@
       <div class="card reveal">
         <div class="ic">🕒</div>
         <h3>Çalışma Saatleri</h3>
-        <div class="hours-row"><span>Pazartesi – Cuma</span><b>05:00 – 21:00</b></div>
-        <div class="hours-row"><span>Cumartesi – Pazar</span><b>07:00 – 22:00</b></div>
+        <div class="hours-row"><span>Her gün</span><b>09:00 – 01:30</b></div>
       </div>
       <div class="card reveal">
         <div class="ic">📍</div>
@@ -815,22 +814,20 @@
   (function(){
     const now = new Date();
     const h = now.getHours() + now.getMinutes()/60;
-    const day = now.getDay(); // 0 Sun .. 6 Sat
     const greetEl = document.getElementById('greeting');
     if (h < 12) greetEl.textContent = 'Günaydın ☀️';
     else if (h < 18) greetEl.textContent = 'İyi günler';
     else greetEl.textContent = 'İyi akşamlar';
 
-    const isWeekend = (day === 0 || day === 6);
-    const openH = isWeekend ? 7 : 5;
-    const closeH = isWeekend ? 22 : 21;
-    const isOpen = h >= openH && h < closeH;
+    const openH = 9;      // 09:00
+    const closeH = 1.5;   // 01:30 (gece yarısını geçiyor)
+    const isOpen = (h >= openH) || (h < closeH);
 
     const badge = document.getElementById('statusBadge');
     const text = document.getElementById('statusText');
     if (isOpen){
       badge.classList.add('open');
-      const remain = closeH - h;
+      const remain = h >= openH ? (24 - h) + closeH : closeH - h;
       text.textContent = remain < 1 ? 'Şu an açığız · yakında kapanıyor' : 'Şu an açığız';
     } else {
       badge.classList.add('closed');
